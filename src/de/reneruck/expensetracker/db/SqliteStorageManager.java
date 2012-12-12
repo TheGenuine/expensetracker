@@ -7,15 +7,8 @@ import de.reneruck.expensetracker.model.Category;
 import de.reneruck.expensetracker.model.ExpenseEntry;
 import de.reneruck.expensetracker.model.Ordering;
 
-/**
- * Constitutes the connection to a way to store entries, whether to a database
- * or to a file or whatever
- * 
- * @author Rene
- * 
- */
-public interface StorageManager {
-	
+public class SqliteStorageManager {
+
 	/**
 	 * Persists an {@link ExpenseEntry}.<br>
 	 * If an entry with the same ID already exists, it will be updates by this
@@ -24,7 +17,9 @@ public interface StorageManager {
 	 * @param expenseEntry
 	 *            the {@link ExpenseEntry} to store
 	 */
-	public void storeOrUpdateExpenseEntry(ExpenseEntry expenseEntry);
+	public void storeOrUpdateExpenseEntry(ExpenseEntry expenseEntry){
+		
+	}
 	
 	
 	/**
@@ -33,7 +28,9 @@ public interface StorageManager {
 	 * @param expenseEntry
 	 *            the {@link ExpenseEntry} to delete
 	 */
-	public void deleteExpenseEntry(ExpenseEntry expenseEntry);
+	public void deleteExpenseEntry(ExpenseEntry expenseEntry){
+		
+	}
 	
 	/**
 	 * Deletes the {@link ExpenseEntry} with the given id from persistent
@@ -42,7 +39,9 @@ public interface StorageManager {
 	 * @param expenseEntryId
 	 *            the id of the {@link ExpenseEntry} to delete
 	 */
-	public void deleteExpenseEntry(long expenseEntryId);
+	public void deleteExpenseEntry(long expenseEntryId){
+		
+	}
 	
 	/**
 	 * Returns a list of all currently stored {@link ExpenseEntry}.
@@ -53,7 +52,9 @@ public interface StorageManager {
 	 * 
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
-	public List<ExpenseEntry> getAllExpensEntries(Ordering ordering);
+	public List<ExpenseEntry> getAllExpensEntries(Ordering ordering){
+		return null;
+	}
 	
 	/**
 	 * Returns a list of all {@link ExpenseEntry} for the given day.
@@ -65,7 +66,9 @@ public interface StorageManager {
 	 *            ascending
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
-	public List<ExpenseEntry> getAllExpensEntriesForDay(Date day, Ordering ordering);
+	public List<ExpenseEntry> getAllExpensEntriesForDay(Date day, Ordering ordering){
+		return null;
+	}
 	
 	/**
 	 * Returns a list of all {@link ExpenseEntry} for the given period between
@@ -82,7 +85,9 @@ public interface StorageManager {
 	 *            ascending
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
-	public List<ExpenseEntry> getAllExpensEntriesForRange(Date startDay, Date endDay, Ordering ordering);
+	public List<ExpenseEntry> getAllExpensEntriesForRange(Date startDay, Date endDay, Ordering ordering){
+		return null;
+	}
 	
 	
 	/**
@@ -95,7 +100,9 @@ public interface StorageManager {
 	 *            ascending
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
-	public List<ExpenseEntry> getAllExpensEntriesForCategory(Category category, Ordering ordering);
+	public List<ExpenseEntry> getAllExpensEntriesForCategory(Category category, Ordering ordering){
+		return null;
+	}
 	
 	/**
 	 * Returns a list of all {@link ExpenseEntry} for the given {@link Category}
@@ -111,7 +118,9 @@ public interface StorageManager {
 	 *            ascending
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
-	public List<ExpenseEntry> getAllExpensEntriesForCategory(Date day, Category category, Ordering ordering);
+	public List<ExpenseEntry> getAllExpensEntriesForCategory(Date day, Category category, Ordering ordering){
+		return null;
+	}
 	
 	/**
 	 * Returns a list of all {@link ExpenseEntry} for the given {@link Category}
@@ -129,5 +138,7 @@ public interface StorageManager {
 	 *            ascending
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
-	public List<ExpenseEntry> getAllExpensEntriesForCategory(Date startDay, Date endDay, Category category, Ordering ordering);
+	public List<ExpenseEntry> getAllExpensEntriesForCategory(Date startDay, Date endDay, Category category, Ordering ordering){
+		return null;
+	}
 }
