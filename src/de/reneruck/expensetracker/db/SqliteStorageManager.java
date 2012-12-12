@@ -3,12 +3,19 @@ package de.reneruck.expensetracker.db;
 import java.sql.Date;
 import java.util.List;
 
+import android.content.Context;
 import de.reneruck.expensetracker.model.Category;
 import de.reneruck.expensetracker.model.ExpenseEntry;
 import de.reneruck.expensetracker.model.Ordering;
 
 public class SqliteStorageManager {
 
+	private DatabaseHelper dbHelper;
+
+	public SqliteStorageManager(Context context) {
+		this.dbHelper = new DatabaseHelper(context, DbConfigs.databaseName, null, DbConfigs.databaseVersion);
+	}
+	
 	/**
 	 * Persists an {@link ExpenseEntry}.<br>
 	 * If an entry with the same ID already exists, it will be updates by this
