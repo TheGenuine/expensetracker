@@ -19,6 +19,10 @@ public class ExpenseEntry {
 	double value;
 	Category category;
 	
+	public ExpenseEntry(long id, Date date, String description, double value, Category category) {
+		this(date, description, value, category);
+		this.id = id;
+	}
 	/**
 	 * Creates a new {@link ExpenseEntry}.
 	 * 
