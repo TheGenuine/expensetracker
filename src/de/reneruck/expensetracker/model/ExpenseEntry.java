@@ -1,6 +1,7 @@
 package de.reneruck.expensetracker.model;
 
-import java.sql.Date;
+import java.util.Date;
+
 
 /**
  * Constitutes an expense entry.<br>
