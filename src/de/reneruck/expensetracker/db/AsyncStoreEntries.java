@@ -49,6 +49,7 @@ public class AsyncStoreEntries extends AsyncTask<QueryInstructions, Void, Void> 
 		} else {
 			writableDatabase.insertWithOnConflict(DbConfigs.TABLE_EXPENSES, null, values, SQLiteDatabase.CONFLICT_ROLLBACK);
 		}
+		writableDatabase.close();
 	}
 
 	private boolean entryExists(SQLiteDatabase db, long entryId) {
