@@ -2,7 +2,7 @@ package de.reneruck.expensetracker.db;
 
 import android.os.AsyncTask;
 
-public class AsyncRetriveEntries extends AsyncTask<QueryInstructions, Void, Void> {
+public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Void> {
 
 	@Override
 	protected Void doInBackground(QueryInstructions... arg0) {
