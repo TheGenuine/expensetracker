@@ -37,7 +37,7 @@ public class FragmentAllItems extends Fragment implements DatabaseQueryCallback 
 		this.container.removeAllViews();
 		ListView list = new ListView(getActivity());
 		list.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		list.setAdapter(new ExpenseEntryAdapter<ExpenseEntry>(getActivity(), resultSet));
+		list.setAdapter(new ExpenseEntryAdapter(getActivity(), R.layout.expense_entry, resultSet));
 		this.container.addView(list);
 	}
 }
