@@ -12,6 +12,6 @@
     <string name="new_entry_notes_hint">Bemerkung</string>
     
     <string name="please_wait">bitte warten ...</string>
-
+    <string name="empty_list">keine Einträge vorhanden</string>
     <string name="retrieving_items">lade Einträge ...</string>
 </resources>
