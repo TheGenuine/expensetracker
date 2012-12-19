@@ -8,12 +8,13 @@ import de.reneruck.expensetracker.model.Ordering;
 
 public class QueryInstructions {
 	
-	private long entryId;
+	private long entryId = -1;
 	private ExpenseEntry entry;
 	private Date day1;
 	private Date day2;
 	private Ordering ordering;
 	private Category category;
+	private boolean delete = false;
 	
 	public QueryInstructions(long entryId, ExpenseEntry entry, Date day1, Date day2, Ordering ordering, Category category) {
 		super();
@@ -62,5 +63,17 @@ public class QueryInstructions {
 
 	public void setEntry(ExpenseEntry entry) {
 		this.entry = entry;
+	}
+
+	public void setDeleteFlag(boolean delete) {
+		this.delete  = delete;
+	}
+
+	public boolean isDelete() {
+		return delete;
+	}
+
+	public void setDelete(boolean delete) {
+		this.delete = delete;
 	}
 }
