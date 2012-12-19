@@ -35,9 +35,14 @@ public class FragmentAllItems extends Fragment implements DatabaseQueryCallback 
 	@Override
 	public void queryFinished(List<ExpenseEntry> resultSet) {
 		this.container.removeAllViews();
+		
 		ListView list = new ListView(getActivity());
 		list.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		list.setAdapter(new ExpenseEntryAdapter(getActivity(), R.layout.expense_entry, resultSet));
+		
+		TextView emptyText = (TextView)getActivity().findViewById(android.R.id.empty);
+		list.setEmptyView(emptyText);
+		
 		this.container.addView(list);
 	}
 }
