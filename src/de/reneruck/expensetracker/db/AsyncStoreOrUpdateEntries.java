@@ -25,15 +25,26 @@ public class AsyncStoreOrUpdateEntries extends AsyncTask<QueryInstructions, Void
 		if(params != null && params.length > 0){
 			QueryInstructions instructions = params[0];
 			
-			ExpenseEntry entry = instructions.getEntry();
-			
-			if(entry != null) {
-				writeToDatabase(entry);
+			if(instructions.isDelete()) {
+				deleteEntry(instructions.getEntryId());
+			} else {
+				ExpenseEntry entry = instructions.getEntry();
+				
+				if(entry != null) {
+					writeToDatabase(entry);
+				}
 			}
+			
 		}
 		return null;
 	}
 
+	private void deleteEntry(long entryId) {
+		SQLiteDatabase writableDatabase = this.dbHelper.getWritableDatabase();
+		if(entryId > -1 && entryExists(writableDatabase, entryId)) {
+			writableDatabase.delete(DbConfigs.TABLE_EXPENSES, DbConfigs.FIELD_EXPENSES_ID + "=" + entryId, null);
+		}
+	}
 
 	private void writeToDatabase(ExpenseEntry entry) {
 		
