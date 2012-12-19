@@ -8,12 +8,12 @@ import de.reneruck.expensetracker.model.Ordering;
 
 public class QueryInstructions {
 	
-	long entryId;
+	private long entryId;
 	private ExpenseEntry entry;
-	Date day1;
-	Date day2;
-	Ordering ordering;
-	Category category;
+	private Date day1;
+	private Date day2;
+	private Ordering ordering;
+	private Category category;
 	
 	public QueryInstructions(long entryId, ExpenseEntry entry, Date day1, Date day2, Ordering ordering, Category category) {
 		super();
