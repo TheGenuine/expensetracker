@@ -9,10 +9,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private static final String CREATE_EXPENSES_TABLE = "CREATE  TABLE IF NOT EXISTS `" + DbConfigs.TABLE_EXPENSES+ "`" +
-			" (`" + DbConfigs.FIELD_EXPENSES_ID + "` LONG  PRIMARY KEY AUTOINCREMENT ," +
-			"`" + DbConfigs.FIELD_DATE + "` DATE NULL ," +
-			"`" + DbConfigs.FIELD_DESCRIPTION + "` STRING NULL ," +
-			"`" + DbConfigs.FIELD_VALUE + "` DOUBLE NULL" +
+			" (`" + DbConfigs.FIELD_EXPENSES_ID + "` LONG  PRIMARY KEY, " +
+			"`" + DbConfigs.FIELD_DATE + "` DATE NULL, " +
+			"`" + DbConfigs.FIELD_DESCRIPTION + "` STRING NULL, " +
+			"`" + DbConfigs.FIELD_VALUE + "` DOUBLE NULL, " +
 			"`" + DbConfigs.FIELD_CATEGORY + "` INTEGER NULL)";
 
 	public DatabaseHelper(Context context, String name, CursorFactory factory, int version) {
@@ -26,7 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		try {
 			db.execSQL(CREATE_EXPENSES_TABLE);
 		} catch (SQLException e) {
-			System.err.println(e);
+			e.printStackTrace();
 		}
 	}
 
