@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import android.content.Context;
+import de.reneruck.expensetracker.DatabaseQueryCallback;
 import de.reneruck.expensetracker.model.Category;
 import de.reneruck.expensetracker.model.ExpenseEntry;
 import de.reneruck.expensetracker.model.Ordering;
@@ -56,11 +57,11 @@ public class SqliteStorageManager {
 	 * @param ordering
 	 *            the timely ordering of the returned {@link List}, default is
 	 *            ascending
+	 * @param callback 
 	 * 
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
-	public List<ExpenseEntry> getAllExpensEntries(Ordering ordering){
-		return null;
+	public void getAllExpensEntries(Ordering ordering, DatabaseQueryCallback callback){
 	}
 	
 	/**
@@ -73,8 +74,7 @@ public class SqliteStorageManager {
 	 *            ascending
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
-	public List<ExpenseEntry> getAllExpensEntriesForDay(Date day, Ordering ordering){
-		return null;
+	public void getAllExpensEntriesForDay(Date day, Ordering ordering, DatabaseQueryCallback callback){
 	}
 	
 	/**
@@ -92,8 +92,7 @@ public class SqliteStorageManager {
 	 *            ascending
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
-	public List<ExpenseEntry> getAllExpensEntriesForRange(Date startDay, Date endDay, Ordering ordering){
-		return null;
+	public void getAllExpensEntriesForRange(Date startDay, Date endDay, Ordering ordering, DatabaseQueryCallback callback){
 	}
 	
 	
@@ -107,8 +106,7 @@ public class SqliteStorageManager {
 	 *            ascending
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
-	public List<ExpenseEntry> getAllExpensEntriesForCategory(Category category, Ordering ordering){
-		return null;
+	public void getAllExpensEntriesForCategory(Category category, Ordering ordering, DatabaseQueryCallback callback){
 	}
 	
 	/**
@@ -125,8 +123,7 @@ public class SqliteStorageManager {
 	 *            ascending
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
-	public List<ExpenseEntry> getAllExpensEntriesForCategory(Date day, Category category, Ordering ordering){
-		return null;
+	public void getAllExpensEntriesForCategory(Date day, Category category, Ordering ordering, DatabaseQueryCallback callback){
 	}
 	
 	/**
@@ -145,7 +142,6 @@ public class SqliteStorageManager {
 	 *            ascending
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
-	public List<ExpenseEntry> getAllExpensEntriesForCategory(Date startDay, Date endDay, Category category, Ordering ordering){
-		return null;
+	public void getAllExpensEntriesForCategory(Date startDay, Date endDay, Category category, Ordering ordering, DatabaseQueryCallback callback){
 	}
 }
