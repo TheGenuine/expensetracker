@@ -17,12 +17,20 @@ import android.util.Log;
 public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, List<ExpenseEntry>> {
 
 	private static final String TAG = null;
+	private static final long TWENTY_FOUR_HOURS_IN_MS = 86400000;
 	private DatabaseHelper dbHelper;
+	private DatabaseQueryCallback callback;
 	
-	public AsyncRetrieveEntries(DatabaseHelper dbHelper) {
+	public AsyncRetrieveEntries(DatabaseHelper dbHelper, DatabaseQueryCallback callback) {
 		this.dbHelper = dbHelper;
+		this.callback = callback;
 	}
 
+	@Override
+	protected void onPostExecute(List<ExpenseEntry> result) {
+		this.callback.queryFinished(result);
+	}
+	
 	@Override
 	protected List<ExpenseEntry> doInBackground(QueryInstructions... params) {
 		if(params != null && params.length > 0){
@@ -33,7 +41,52 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 	}
 
 	private String createSelectionStatement(QueryInstructions instructions) {
-		return "";
+		StringBuilder statement = new StringBuilder("SELECT * FROM " + DbConfigs.TABLE_EXPENSES + " ");
+		if(instructions.getEntryId() > -1) {
+			statement.append("WHERE " + DbConfigs.FIELD_EXPENSES_ID + "=" + instructions.getEntryId());
+		}
+
+		if(instructions.getDay1() != null) {
+			if(instructions.getDay2() != null){
+				statement.append("WHERE " + DbConfigs.FIELD_DATE+ ">" + instructions.getEntryId() 
+						+ " AND " + DbConfigs.FIELD_DATE+ "<" + instructions.getEntryId());
+			} else {
+				statement.append("WHERE " + DbConfigs.FIELD_DATE+ ">" + instructions.getDay1()
+				+ " AND " + DbConfigs.FIELD_DATE+ "<" + dayPlus24h(instructions.getDay1()));
+			}
+		}
+
+		if(instructions.getCategory() != null) {
+			statement.append("WHERE " + DbConfigs.FIELD_CATEGORY + "=" + instructions.getCategory());
+		}
+		
+		statement.append(" ORDER BY" + DbConfigs.FIELD_DATE);
+		
+		if(instructions.getOrdering() != null) {
+			statement.append(" " + instructions.getOrdering().toString());
+		} else {
+			statement.append(" DESC");
+		}
+		
+		return fixWhereEntries(statement.toString());
+	}
+
+	/**
+	 * Replaces all WHERE entries after the first with AND to make the query
+	 * valid
+	 * 
+	 * @param statement
+	 *            probably invalid sql statement
+	 * @return
+	 */
+	private String fixWhereEntries(String statement) {
+		int firstWhere = statement.indexOf("WHERE");
+		String substring = statement.substring(firstWhere).replace("WHERE", "AND");
+		return statement.substring(0, firstWhere) + substring;
+	}
+
+	private String dayPlus24h(Date day1) {
+		return SqlDateToString(new Date(day1.getTime() + TWENTY_FOUR_HOURS_IN_MS));
 	}
 
 	private List<ExpenseEntry> queryDatabase(String selection) {
@@ -44,13 +97,13 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 		List<ExpenseEntry> result = new LinkedList<ExpenseEntry>();
 		if(query.getCount() > 0){
 			for(query.moveToFirst(); query.isLast(); query.moveToNext()){
-				result.add(new ExpenseEntry(getDate(query.getString(1)), query.getString(2), query.getDouble(3), Category.values()[query.getInt(4)]));
+				result.add(new ExpenseEntry(stringToSqlDate(query.getString(1)), query.getString(2), query.getDouble(3), Category.values()[query.getInt(4)]));
 			}
 		}
 		return result;
 	}
 
-	private Date getDate(String sqlDate) {
+	private Date stringToSqlDate(String sqlDate) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 		try {
 			return dateFormat.parse(sqlDate);
@@ -58,5 +111,10 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 			Log.e(TAG, e.getMessage());
 			return new Date();
 		}
+	}
+	
+	private String SqlDateToString(Date sqlDate) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		return dateFormat.format(sqlDate);
 	}
 }
