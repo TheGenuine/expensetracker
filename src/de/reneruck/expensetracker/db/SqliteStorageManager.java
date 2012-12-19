@@ -25,7 +25,9 @@ public class SqliteStorageManager {
 	 *            the {@link ExpenseEntry} to store
 	 */
 	public void storeOrUpdateExpenseEntry(ExpenseEntry expenseEntry){
-		
+		QueryInstructions instructions = new QueryInstructions(-1, expenseEntry, null, null, null, null);
+		AsyncStoreOrUpdateEntries storeTask = new AsyncStoreOrUpdateEntries(dbHelper, this);
+		storeTask.execute(instructions);
 	}
 	
 	
@@ -36,7 +38,7 @@ public class SqliteStorageManager {
 	 *            the {@link ExpenseEntry} to delete
 	 */
 	public void deleteExpenseEntry(ExpenseEntry expenseEntry){
-		
+		deleteExpenseEntry(expenseEntry.getId());
 	}
 	
 	/**
@@ -47,7 +49,10 @@ public class SqliteStorageManager {
 	 *            the id of the {@link ExpenseEntry} to delete
 	 */
 	public void deleteExpenseEntry(long expenseEntryId){
-		
+		QueryInstructions instructions = new QueryInstructions(expenseEntryId, null, null, null, null, null);
+		instructions.setDeleteFlag(true);
+		AsyncStoreOrUpdateEntries storeTask = new AsyncStoreOrUpdateEntries(dbHelper, this);
+		storeTask.execute(instructions);
 	}
 	
 	/**
@@ -61,11 +66,7 @@ public class SqliteStorageManager {
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
 	public void getAllExpensEntries(Ordering ordering, DatabaseQueryCallback callback){
-
-		QueryInstructions instructionSet = new QueryInstructions(-1, null, null, null, ordering, null);
-		
-		AsyncRetrieveEntries retriveTask = new AsyncRetrieveEntries(this.dbHelper, callback);
-		retriveTask.doInBackground(instructionSet);
+		getAllExpensEntriesForRange(null, null, ordering, callback);
 	}
 	
 	/**
@@ -79,6 +80,7 @@ public class SqliteStorageManager {
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
 	public void getAllExpensEntriesForDay(Date day, Ordering ordering, DatabaseQueryCallback callback){
+		getAllExpensEntriesForRange(day, null, ordering, callback);
 	}
 	
 	/**
@@ -97,6 +99,10 @@ public class SqliteStorageManager {
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
 	public void getAllExpensEntriesForRange(Date startDay, Date endDay, Ordering ordering, DatabaseQueryCallback callback){
+		QueryInstructions instructionSet = new QueryInstructions(-1, null, startDay, endDay, ordering, null);
+		
+		AsyncRetrieveEntries retriveTask = new AsyncRetrieveEntries(this.dbHelper, callback);
+		retriveTask.doInBackground(instructionSet);
 	}
 	
 	
@@ -111,6 +117,7 @@ public class SqliteStorageManager {
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
 	public void getAllExpensEntriesForCategory(Category category, Ordering ordering, DatabaseQueryCallback callback){
+		getAllExpensEntriesForCategory(null, null, category, ordering, callback);
 	}
 	
 	/**
@@ -128,6 +135,7 @@ public class SqliteStorageManager {
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
 	public void getAllExpensEntriesForCategory(Date day, Category category, Ordering ordering, DatabaseQueryCallback callback){
+		getAllExpensEntriesForCategory(day, null, category, ordering, callback);
 	}
 	
 	/**
@@ -147,5 +155,9 @@ public class SqliteStorageManager {
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
 	public void getAllExpensEntriesForCategory(Date startDay, Date endDay, Category category, Ordering ordering, DatabaseQueryCallback callback){
+		QueryInstructions instructionSet = new QueryInstructions(-1, null, startDay, endDay, ordering, category);
+		
+		AsyncRetrieveEntries retriveTask = new AsyncRetrieveEntries(this.dbHelper, callback);
+		retriveTask.doInBackground(instructionSet);
 	}
 }
