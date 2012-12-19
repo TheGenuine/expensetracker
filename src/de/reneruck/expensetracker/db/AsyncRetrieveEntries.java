@@ -60,7 +60,7 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 			statement.append("WHERE " + DbConfigs.FIELD_CATEGORY + "=" + instructions.getCategory());
 		}
 		
-		statement.append(" ORDER BY" + DbConfigs.FIELD_DATE);
+		statement.append("ORDER BY" + DbConfigs.FIELD_DATE);
 		
 		if(instructions.getOrdering() != null) {
 			statement.append(" " + instructions.getOrdering().toString());
@@ -81,8 +81,12 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 	 */
 	private String fixWhereEntries(String statement) {
 		int firstWhere = statement.indexOf("WHERE");
-		String substring = statement.substring(firstWhere).replace("WHERE", "AND");
-		return statement.substring(0, firstWhere) + substring;
+		if(firstWhere > -1) {
+			String substring = statement.substring(firstWhere).replace("WHERE", "AND");
+			return statement.substring(0, firstWhere) + substring;
+		} else {
+			return statement;
+		}
 	}
 
 	private String dayPlus24h(Date day1) {
