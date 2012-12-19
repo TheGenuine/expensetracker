@@ -102,7 +102,7 @@ public class SqliteStorageManager {
 		QueryInstructions instructionSet = new QueryInstructions(-1, null, startDay, endDay, ordering, null);
 		
 		AsyncRetrieveEntries retriveTask = new AsyncRetrieveEntries(this.dbHelper, callback);
-		retriveTask.doInBackground(instructionSet);
+		retriveTask.execute(instructionSet);
 	}
 	
 	
@@ -158,6 +158,6 @@ public class SqliteStorageManager {
 		QueryInstructions instructionSet = new QueryInstructions(-1, null, startDay, endDay, ordering, category);
 		
 		AsyncRetrieveEntries retriveTask = new AsyncRetrieveEntries(this.dbHelper, callback);
-		retriveTask.doInBackground(instructionSet);
+		retriveTask.execute(instructionSet);
 	}
 }
