@@ -28,7 +28,9 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 
 	@Override
 	protected void onPostExecute(List<ExpenseEntry> result) {
-		this.callback.queryFinished(result);
+		if(this.callback != null) {
+			this.callback.queryFinished(result);
+		}
 	}
 	
 	@Override
@@ -41,52 +43,34 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 	}
 
 	private String createSelectionStatement(QueryInstructions instructions) {
-		StringBuilder statement = new StringBuilder("SELECT * FROM " + DbConfigs.TABLE_EXPENSES + " ");
+		StringBuilder statement = new StringBuilder("");
 		if(instructions.getEntryId() > -1) {
-			statement.append("WHERE " + DbConfigs.FIELD_EXPENSES_ID + "=" + instructions.getEntryId());
+			statement.append(DbConfigs.FIELD_EXPENSES_ID + "=" + instructions.getEntryId());
 		}
 
 		if(instructions.getDay1() != null) {
 			if(instructions.getDay2() != null){
-				statement.append("WHERE " + DbConfigs.FIELD_DATE+ ">" + instructions.getEntryId() 
+				statement.append(DbConfigs.FIELD_DATE+ ">" + instructions.getEntryId() 
 						+ " AND " + DbConfigs.FIELD_DATE+ "<" + instructions.getEntryId());
 			} else {
-				statement.append("WHERE " + DbConfigs.FIELD_DATE+ ">" + instructions.getDay1()
+				statement.append(DbConfigs.FIELD_DATE+ ">" + instructions.getDay1()
 				+ " AND " + DbConfigs.FIELD_DATE+ "<" + dayPlus24h(instructions.getDay1()));
 			}
 		}
 
 		if(instructions.getCategory() != null) {
-			statement.append("WHERE " + DbConfigs.FIELD_CATEGORY + "=" + instructions.getCategory());
+			statement.append(DbConfigs.FIELD_CATEGORY + "=" + instructions.getCategory());
 		}
 		
-		statement.append("ORDER BY" + DbConfigs.FIELD_DATE);
+//		statement.append("ORDER BY " + DbConfigs.FIELD_DATE);
+//		
+//		if(instructions.getOrdering() != null) {
+//			statement.append(" " + instructions.getOrdering().toString());
+//		} else {
+//			statement.append(" DESC");
+//		}
 		
-		if(instructions.getOrdering() != null) {
-			statement.append(" " + instructions.getOrdering().toString());
-		} else {
-			statement.append(" DESC");
-		}
-		
-		return fixWhereEntries(statement.toString());
-	}
-
-	/**
-	 * Replaces all WHERE entries after the first with AND to make the query
-	 * valid
-	 * 
-	 * @param statement
-	 *            probably invalid sql statement
-	 * @return
-	 */
-	private String fixWhereEntries(String statement) {
-		int firstWhere = statement.indexOf("WHERE");
-		if(firstWhere > -1) {
-			String substring = statement.substring(firstWhere).replace("WHERE", "AND");
-			return statement.substring(0, firstWhere) + substring;
-		} else {
-			return statement;
-		}
+		return statement.toString().length() > 1 ? statement.toString() : null;
 	}
 
 	private String dayPlus24h(Date day1) {
