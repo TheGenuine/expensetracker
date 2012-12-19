@@ -1,4 +1,4 @@
-package de.reneruck.expensetracker;
+package de.reneruck.expensetracker.db;
 
 import java.util.List;
 

@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.util.List;
 
 import android.content.Context;
-import de.reneruck.expensetracker.DatabaseQueryCallback;
 import de.reneruck.expensetracker.model.Category;
 import de.reneruck.expensetracker.model.ExpenseEntry;
 import de.reneruck.expensetracker.model.Ordering;
