@@ -9,13 +9,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 
-public class AsyncStoreEntries extends AsyncTask<QueryInstructions, Void, Void> {
+public class AsyncStoreOrUpdateEntries extends AsyncTask<QueryInstructions, Void, Void> {
 
 	DatabaseHelper dbHelper;
 	private SqliteStorageManager callback;
 	
 
-	public AsyncStoreEntries(DatabaseHelper dbHelper, SqliteStorageManager managerCallback) {
+	public AsyncStoreOrUpdateEntries(DatabaseHelper dbHelper, SqliteStorageManager managerCallback) {
 		this.dbHelper = dbHelper;
 		this.callback = managerCallback;
 	}
