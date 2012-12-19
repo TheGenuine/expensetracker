@@ -12,12 +12,13 @@ import android.os.AsyncTask;
 public class AsyncStoreEntries extends AsyncTask<QueryInstructions, Void, Void> {
 
 	DatabaseHelper dbHelper;
+	private SqliteStorageManager callback;
 	
 
-	public AsyncStoreEntries(DatabaseHelper dbHelper) {
+	public AsyncStoreEntries(DatabaseHelper dbHelper, SqliteStorageManager managerCallback) {
 		this.dbHelper = dbHelper;
+		this.callback = managerCallback;
 	}
-
 
 	@Override
 	protected Void doInBackground(QueryInstructions... params) {

@@ -61,6 +61,11 @@ public class SqliteStorageManager {
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
 	public void getAllExpensEntries(Ordering ordering, DatabaseQueryCallback callback){
+
+		QueryInstructions instructionSet = new QueryInstructions(-1, null, null, null, ordering, null);
+		
+		AsyncRetrieveEntries retriveTask = new AsyncRetrieveEntries(this.dbHelper, callback);
+		retriveTask.doInBackground(instructionSet);
 	}
 	
 	/**
