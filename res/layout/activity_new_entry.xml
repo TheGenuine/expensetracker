@@ -39,6 +39,7 @@
             android:layout_width="100dip"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dip"
+            android:gravity="right"
             android:hint="@string/new_entry_value_hint" >
         </EditText>
     </LinearLayout>
@@ -71,7 +72,7 @@
             android:text="@string/new_entry_value" />
  	            
  		<EditText
- 		    android:id="@+id/editText1"
+ 		    android:id="@+id/new_entry_notes"
  		    android:layout_width="fill_parent"
  		    android:layout_height="0dip"
  		    android:layout_weight="1"
