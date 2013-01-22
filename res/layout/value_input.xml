@@ -34,8 +34,7 @@
         android:layout_alignBottom="@+id/value_input_value"
         android:layout_toRightOf="@+id/value_input_value"
         android:src="@drawable/content_backspace" />
-
-    <GridLayout
+    <GridLayout
         android:id="@+id/gridLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
