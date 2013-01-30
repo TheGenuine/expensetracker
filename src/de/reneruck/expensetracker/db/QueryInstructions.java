@@ -6,6 +6,11 @@ import de.reneruck.expensetracker.model.Category;
 import de.reneruck.expensetracker.model.ExpenseEntry;
 import de.reneruck.expensetracker.model.Ordering;
 
+/**
+ * 
+ * @author Rene
+ *
+ */
 public class QueryInstructions {
 	
 	private long entryId = -1;
@@ -27,38 +32,38 @@ public class QueryInstructions {
 	}
 	
 	public long getEntryId() {
-		return entryId;
+		return this.entryId;
 	}
 	public void setEntryId(long entryId) {
 		this.entryId = entryId;
 	}
 	public Date getDay1() {
-		return day1;
+		return this.day1;
 	}
 	public void setDay1(Date day1) {
 		this.day1 = day1;
 	}
 	public Date getDay2() {
-		return day2;
+		return this.day2;
 	}
 	public void setDay2(Date day2) {
 		this.day2 = day2;
 	}
 	public Ordering getOrdering() {
-		return ordering;
+		return this.ordering;
 	}
 	public void setOrdering(Ordering ordering) {
 		this.ordering = ordering;
 	}
 	public Category getCategory() {
-		return category;
+		return this.category;
 	}
 	public void setCategory(Category category) {
 		this.category = category;
 	}
 
 	public ExpenseEntry getEntry() {
-		return entry;
+		return this.entry;
 	}
 
 	public void setEntry(ExpenseEntry entry) {
@@ -70,7 +75,7 @@ public class QueryInstructions {
 	}
 
 	public boolean isDelete() {
-		return delete;
+		return this.delete;
 	}
 
 	public void setDelete(boolean delete) {

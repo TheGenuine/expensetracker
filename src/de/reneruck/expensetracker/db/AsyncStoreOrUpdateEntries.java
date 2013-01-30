@@ -9,6 +9,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 
+/**
+ * 
+ * @author Rene
+ *
+ */
 public class AsyncStoreOrUpdateEntries extends AsyncTask<QueryInstructions, Void, Void> {
 
 	DatabaseHelper dbHelper;
@@ -57,7 +62,7 @@ public class AsyncStoreOrUpdateEntries extends AsyncTask<QueryInstructions, Void
 		values.put(DbConfigs.FIELD_CATEGORY, entry.getCategory().ordinal());
 
 		if(entryExists(writableDatabase, entry.getId())){
-			writableDatabase.updateWithOnConflict(DbConfigs.TABLE_EXPENSES, values, DbConfigs.FIELD_EXPENSES_ID + "=" + entry.getId(), null,SQLiteDatabase.CONFLICT_ROLLBACK);
+			writableDatabase.updateWithOnConflict(DbConfigs.TABLE_EXPENSES, values, DbConfigs.FIELD_EXPENSES_ID + "=" + entry.getId(), null, SQLiteDatabase.CONFLICT_ROLLBACK);
 		} else {
 			writableDatabase.insertWithOnConflict(DbConfigs.TABLE_EXPENSES, null, values, SQLiteDatabase.CONFLICT_ROLLBACK);
 		}
@@ -65,7 +70,7 @@ public class AsyncStoreOrUpdateEntries extends AsyncTask<QueryInstructions, Void
 	}
 
 	private boolean entryExists(SQLiteDatabase db, long entryId) {
-		Cursor c = db.query(DbConfigs.TABLE_EXPENSES, new String[]{"*"}, DbConfigs.FIELD_EXPENSES_ID + " like '" + entryId+ "'", null, null, null,null);
+		Cursor c = db.query(DbConfigs.TABLE_EXPENSES, new String[]{"*"}, DbConfigs.FIELD_EXPENSES_ID + " like '" + entryId + "'", null, null, null, null);
 		boolean result = c.getCount() > 0 ? true : false;
 		c.close();
 		return result;

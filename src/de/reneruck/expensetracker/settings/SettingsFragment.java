@@ -4,6 +4,11 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import de.reneruck.expensetracker.R;
 
+/**
+ * 
+ * @author Rene
+ *
+ */
 public class SettingsFragment extends PreferenceFragment {
    
 	@Override

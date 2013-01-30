@@ -5,9 +5,18 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import de.reneruck.expensetracker.db.SqliteStorageManager;
 
+/**
+ * 
+ * @author Rene
+ *
+ */
 public class AppContext extends Application {
 
 	private static final String TAG = "ExpensesTracker - AppContext";
+
+	public static final String PREF_USER = "user-preferences";
+	public static final String PREF_USER_DESCRIPTIONS = "descriptions";
+	public static final String PREF_USER_CATEGORIES = "categories";
 
 	private SqliteStorageManager databaseManager;
 
@@ -28,7 +37,7 @@ public class AppContext extends Application {
 
 
 	public SqliteStorageManager getDatabaseManager() {
-		return databaseManager;
+		return this.databaseManager;
 	}
 
 	public void setDatabaseManager(SqliteStorageManager databaseManager) {

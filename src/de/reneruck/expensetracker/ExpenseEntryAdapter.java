@@ -91,7 +91,7 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
     private LayoutInflater mInflater;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param context The current context.
      * @param textViewResourceId The resource ID for a layout file containing a TextView to use when
@@ -102,7 +102,7 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
     }
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param context The current context.
      * @param resource The resource ID for a layout file containing a layout to use when
@@ -114,7 +114,7 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
     }
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param context The current context.
      * @param textViewResourceId The resource ID for a layout file containing a TextView to use when
@@ -169,14 +169,16 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
      * @param object The object to add at the end of the array.
      */
     public void add(ExpenseEntry object) {
-        synchronized (mLock) {
-            if (mOriginalValues != null) {
-                mOriginalValues.add(object);
+        synchronized (this.mLock) {
+            if (this.mOriginalValues != null) {
+                this.mOriginalValues.add(object);
             } else {
-                mObjects.add(object);
+                this.mObjects.add(object);
             }
         }
-        if (mNotifyOnChange) notifyDataSetChanged();
+        if (this.mNotifyOnChange) {
+			notifyDataSetChanged();
+		}
     }
 
     /**
@@ -304,7 +306,7 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
 
     private void init(Context context, int resource, int textViewResourceId, List<ExpenseEntry> objects) {
         mContext = context;
-        mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mResource = mDropDownResource = resource;
         mObjects = objects;
         mFieldId = textViewResourceId;
@@ -383,17 +385,17 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
 
         ExpenseEntry item = getItem(position);
         
-        if(isNewDay(item)) {
+        if (isNewDay(item)) {
         	
             view = mInflater.inflate(R.layout.expense_entry_day_divider, parent, false);
             
             // set Date text
-            TextView dateText = ((TextView)view.findViewById(R.id.expense_entry_divider_date));
+            TextView dateText = ((TextView) view.findViewById(R.id.expense_entry_divider_date));
     		SimpleDateFormat formatter = new SimpleDateFormat("E, dd.MM.yyyy");
     		dateText.setText(formatter.format(new Date(item.getDate().getTime())));
     		
     		// append normal entry
-    		view = appendEntry((ViewGroup)view, item);
+    		view = appendEntry((ViewGroup) view, item);
         } else {
     		text.setText(item.getDescription());
         	value.setText("-" + item.getValue() + "€");        	
@@ -403,13 +405,13 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
 
     private View appendEntry(ViewGroup view, ExpenseEntry item) {
     	View inflated = this.mInflater.inflate(R.layout.expense_entry, view);
-    	((ViewGroup)view).addView(createEntry(inflated, item));
+    	((ViewGroup) view).addView(createEntry(inflated, item));
     	return view;
 	}
 
 	private View createEntry(View view, ExpenseEntry item) {
-		((TextView)view.findViewById(R.id.expense_entry_description)).setText(item.getDescription());
-		((TextView)view.findViewById(R.id.expense_entry_value)).setText("-" + item.getValue() + "€");
+		((TextView) view.findViewById(R.id.expense_entry_description)).setText(item.getDescription());
+		((TextView) view.findViewById(R.id.expense_entry_value)).setText("-" + item.getValue() + "€");
 		return view;
 	}
 
@@ -419,9 +421,8 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
 
 	private CharSequence getItemText(String item) {
     	String[] split = item.split(File.separator);
-    	if(split.length > 1)
-    	{
-    		return split[split.length-1].replace(".mp3", " ").trim();
+    	if (split.length > 1) {
+    		return split[split.length - 1].replace(".mp3", " ").trim();
     	}
 		return item;
 	}

@@ -6,9 +6,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * 
+ * @author Rene
+ *
+ */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-	private static final String CREATE_EXPENSES_TABLE = "CREATE  TABLE IF NOT EXISTS `" + DbConfigs.TABLE_EXPENSES+ "`" +
+	private static final String CREATE_EXPENSES_TABLE = "CREATE  TABLE IF NOT EXISTS `" + DbConfigs.TABLE_EXPENSES + "`" +
 			" (`" + DbConfigs.FIELD_EXPENSES_ID + "` LONG  PRIMARY KEY, " +
 			"`" + DbConfigs.FIELD_DATE + "` DATE NULL, " +
 			"`" + DbConfigs.FIELD_DESCRIPTION + "` STRING NULL, " +
@@ -16,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			"`" + DbConfigs.FIELD_CATEGORY + "` INTEGER NULL)";
 
 	public DatabaseHelper(Context context, String name, CursorFactory factory, int version) {
-		super(context, DbConfigs.databaseName, factory,  DbConfigs.databaseVersion);
+		super(context, DbConfigs.DATABASE_NAME, factory,  DbConfigs.DATABASE_VERSION);
 	}
 
 	

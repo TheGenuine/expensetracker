@@ -8,12 +8,17 @@ import de.reneruck.expensetracker.model.Category;
 import de.reneruck.expensetracker.model.ExpenseEntry;
 import de.reneruck.expensetracker.model.Ordering;
 
+/**
+ * 
+ * @author Rene
+ *
+ */
 public class SqliteStorageManager {
 
 	private DatabaseHelper dbHelper;
 
 	public SqliteStorageManager(Context context) {
-		this.dbHelper = new DatabaseHelper(context, DbConfigs.databaseName, null, DbConfigs.databaseVersion);
+		this.dbHelper = new DatabaseHelper(context, DbConfigs.DATABASE_NAME, null, DbConfigs.DATABASE_VERSION);
 	}
 	
 	/**
@@ -26,7 +31,7 @@ public class SqliteStorageManager {
 	 */
 	public void storeOrUpdateExpenseEntry(ExpenseEntry expenseEntry){
 		QueryInstructions instructions = new QueryInstructions(-1, expenseEntry, null, null, null, null);
-		AsyncStoreOrUpdateEntries storeTask = new AsyncStoreOrUpdateEntries(dbHelper, this);
+		AsyncStoreOrUpdateEntries storeTask = new AsyncStoreOrUpdateEntries(this.dbHelper, this);
 		storeTask.execute(instructions);
 	}
 	
@@ -51,7 +56,7 @@ public class SqliteStorageManager {
 	public void deleteExpenseEntry(long expenseEntryId){
 		QueryInstructions instructions = new QueryInstructions(expenseEntryId, null, null, null, null, null);
 		instructions.setDeleteFlag(true);
-		AsyncStoreOrUpdateEntries storeTask = new AsyncStoreOrUpdateEntries(dbHelper, this);
+		AsyncStoreOrUpdateEntries storeTask = new AsyncStoreOrUpdateEntries(this.dbHelper, this);
 		storeTask.execute(instructions);
 	}
 	

@@ -14,6 +14,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
 
+/**
+ * 
+ * @author Rene
+ *
+ */
 public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, List<ExpenseEntry>> {
 
 	private static final String TAG = null;
@@ -50,11 +55,11 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 
 		if(instructions.getDay1() != null) {
 			if(instructions.getDay2() != null){
-				statement.append(DbConfigs.FIELD_DATE+ ">" + instructions.getEntryId() 
-						+ " AND " + DbConfigs.FIELD_DATE+ "<" + instructions.getEntryId());
+				statement.append(DbConfigs.FIELD_DATE + ">" + instructions.getEntryId() 
+						+ " AND " + DbConfigs.FIELD_DATE + "<" + instructions.getEntryId());
 			} else {
-				statement.append(DbConfigs.FIELD_DATE+ ">" + instructions.getDay1()
-				+ " AND " + DbConfigs.FIELD_DATE+ "<" + dayPlus24h(instructions.getDay1()));
+				statement.append(DbConfigs.FIELD_DATE + ">" + instructions.getDay1()
+				+ " AND " + DbConfigs.FIELD_DATE + "<" + dayPlus24h(instructions.getDay1()));
 			}
 		}
 
@@ -74,7 +79,7 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 	}
 
 	private String dayPlus24h(Date day1) {
-		return SqlDateToString(new Date(day1.getTime() + TWENTY_FOUR_HOURS_IN_MS));
+		return sqlDateToString(new Date(day1.getTime() + TWENTY_FOUR_HOURS_IN_MS));
 	}
 
 	private List<ExpenseEntry> queryDatabase(String selection) {
@@ -101,7 +106,7 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 		}
 	}
 	
-	private String SqlDateToString(Date sqlDate) {
+	private String sqlDateToString(Date sqlDate) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 		return dateFormat.format(sqlDate);
 	}

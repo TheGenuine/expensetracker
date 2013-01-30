@@ -11,6 +11,10 @@
     <string name="new_entry_category">Categorie</string>
     <string name="new_entry_notes_hint">Notes</string>
     
+    <string name="title_new_entry_section1">Value</string>
+    <string name="title_new_entry_section2">Category</string>
+    <string name="title_new_entry_section3">Description</string>
+    
     <string name="please_wait">please wait ...</string>
     <string name="empty_list">no entries found</string>
     <string name="retrieving_items">Retriving items ...</string>

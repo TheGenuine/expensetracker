@@ -5,6 +5,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+/**
+ * 
+ * @author Rene
+ *
+ */
 public class SettingsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

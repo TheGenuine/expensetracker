@@ -1,10 +1,15 @@
 package de.reneruck.expensetracker.db;
 
+/**
+ * 
+ * @author Rene
+ *
+ */
 public class DbConfigs {
 
-	public static String databaseName = "Expenses.db";
+	public static String DATABASE_NAME = "Expenses.db";
 
-	public static int databaseVersion = 1;
+	public static int DATABASE_VERSION = 1;
 	
 	public static final String TABLE_EXPENSES = "Expenses";
 	public static final String FIELD_EXPENSES_ID = "id";

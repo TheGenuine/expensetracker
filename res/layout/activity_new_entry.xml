@@ -1,86 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    tools:context=".MainActivity">
 
-    <LinearLayout
+    <!--
+    This title strip will display the currently visible page title, as well as the page
+    titles for adjacent pages.
+    -->
+    <android.support.v4.view.PagerTitleStrip android:id="@+id/pager_title_strip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:orientation="horizontal" >
+        android:layout_gravity="top"
+        android:background="#33b5e5"
+        android:textColor="#fff"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp" />
 
-        <TextView
-            android:id="@+id/text_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
-            android:textSize="15dip"
-            android:textStyle="bold"
-            android:text="date" />
-    </LinearLayout>
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dip"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/text_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="10dip"
-            android:text="@string/new_entry_value" />
-
-        <EditText
-            android:id="@+id/new_entry_value"
-            android:layout_width="100dip"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dip"
-            android:gravity="right"
-            android:hint="@string/new_entry_value_hint" >
-        </EditText>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dip"
-        android:orientation="horizontal" >
-
-        <Spinner
-            android:id="@+id/new_entry_category"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:prompt="@array/categories"
-            android:spinnerMode="dialog"/>
-
-    </LinearLayout>
- 	<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dip"
-        android:orientation="vertical" >
-
- 		<TextView
-            android:id="@+id/text_notes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="10dip"
-            android:text="@string/new_entry_value" />
- 	            
- 		<EditText
- 		    android:id="@+id/new_entry_notes"
- 		    android:layout_width="fill_parent"
- 		    android:layout_height="0dip"
- 		    android:layout_weight="1"
- 		    android:ems="10" 
- 		    android:hint="@string/new_entry_notes_hint">
-
- 		    <requestFocus />
- 		</EditText>
-        
-    </LinearLayout>
-</LinearLayout>
+</android.support.v4.view.ViewPager>

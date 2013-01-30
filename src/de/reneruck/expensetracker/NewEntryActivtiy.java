@@ -1,100 +1,73 @@
 package de.reneruck.expensetracker;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
 import de.reneruck.expensetracker.model.ExpenseEntry;
 import de.reneruck.expensetracker.settings.SettingsActivity;
 
-public class NewEntryActivtiy extends Activity {
+/**
+ * This Activity constitutes the container which handles the displaying of the
+ * different steps (fragments) when creating a new Entry.<br>
+ * 
+ * It also takes care of storing the newly created entry to a permanent storage.
+ * 
+ * @author Rene
+ * 
+ */
+public class NewEntryActivtiy extends SherlockFragmentActivity {
 
-	private EditText valueInput;
-	private Spinner category;
-	private EditText notes;
+	private ExpenseEntry currentEntry;
+	private AppContext context;
+	private SectionsPagerAdapter sectionsPagerAdapter;
+	private ViewPager viewPager;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		setContentView(R.layout.activity_new_entry);
 		
-		getActionBar().setHomeButtonEnabled(true);
+        this.context = (AppContext) getApplicationContext();
 		
-		this.valueInput = (EditText) findViewById(R.id.new_entry_value);
-		this.category = (Spinner) findViewById(R.id.new_entry_category);
-		this.notes = (EditText) findViewById(R.id.new_entry_notes);
+		getSupportActionBar().setHomeButtonEnabled(true);
 		
-		setupDateTextAndListener();
-		setupCategories();
-		setupValueField();
+        this.sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
+        this.viewPager = (ViewPager) findViewById(R.id.pager);
+        this.viewPager.setAdapter(this.sectionsPagerAdapter);
 	}
 
-	private void setupValueField() {
-		this.valueInput.setFocusable(false);
-		this.valueInput.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				FragmentTransaction transaction = getFragmentManager().beginTransaction();
-				String currentValue = valueInput.getText().length() > 0 ? valueInput.getText().toString() : null;
-				DialogFragment dialog = new FragmentDialogValueInput(NewEntryActivtiy.this, currentValue);
-				dialog.show(transaction, "valueInput");
-			}
-		});
-	}
-
-	private void setupCategories() {
-		Spinner categories = (Spinner) findViewById(R.id.new_entry_category);
-		
-		SpinnerAdapter categoryEntriesAdapter = new ArrayAdapter<String>(getApplicationContext(), R.array.categories);
-		categories.setAdapter(categoryEntriesAdapter);
-	}
-
-	private void setupDateTextAndListener() {
-		TextView date = (TextView) findViewById(R.id.text_date);
-		SimpleDateFormat formatter = new SimpleDateFormat("E, dd.MM.yyyy");
-		date.setText(formatter.format(new Date(System.currentTimeMillis())));
-		date.setOnClickListener(this.onDateClickListener);
-	}
-	private OnClickListener onDateClickListener = new OnClickListener() {
-		
-		@Override
-		public void onClick(View v) {
-			Toast.makeText(getApplicationContext(), "Show Date chooser", Toast.LENGTH_SHORT).show();
-		}
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.activity_new_entry, menu);
+		return true;
 	};
 	
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_new_entry, menu);
-        return true;
-    }
-    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch (item.getItemId()) {
         case android.R.id.home:
-        	// show warning dialog
+        	//TODO: show warning dialog loosing not stored data
         	finish();
         	break;
         case R.id.menu_store_entry:
+        	//TODO: make a check for empty inputs
         	Toast.makeText(getApplicationContext(), "Storing Entry", Toast.LENGTH_SHORT).show();
-        	ExpenseEntry entry = collectInputData();
+        	this.context.getDatabaseManager().storeOrUpdateExpenseEntry(this.currentEntry);
         	break;
         case R.id.menu_settings:
         	Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
@@ -103,12 +76,75 @@ public class NewEntryActivtiy extends Activity {
 		}
 		return true;
     }
+    
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the primary
+     * sections of the app.
+     */
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-	private ExpenseEntry collectInputData() {
-		return null;
-	}
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
 
-	public void setValueInput(CharSequence text) {
-		this.valueInput.setText(text);
-	}
+        @Override
+        public Fragment getItem(int i) {
+        	Fragment fragment = null;
+        	Bundle args = new Bundle();
+        	
+        	switch (i) {
+				case 0: // Overview
+					fragment = new FragmentValueInput(currentEntry);
+					break;
+				case 1: // New Booking
+					fragment = new FragmentChooseCategory(currentEntry);
+					break;
+				case 2: // Manage Bookings
+					fragment = new FragmentChooseDescription(currentEntry);
+					break;
+
+			default:
+				fragment = new DummySectionFragment();
+				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
+				fragment.setArguments(args);
+				break;
+			}
+            return fragment;
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0: return getString(R.string.title_new_entry_section1).toUpperCase();
+                case 1: return getString(R.string.title_new_entry_section2).toUpperCase();
+                case 2: return getString(R.string.title_new_entry_section3).toUpperCase();
+            }
+            return null;
+        }
+    }
+    
+    /**
+     * A dummy fragment representing a section of the app, but that simply displays dummy text.
+     */
+    public static class DummySectionFragment extends Fragment {
+        public DummySectionFragment() {
+        }
+
+        public static final String ARG_SECTION_NUMBER = "section_number";
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                Bundle savedInstanceState) {
+            TextView textView = new TextView(getActivity());
+            textView.setGravity(Gravity.CENTER);
+            Bundle args = getArguments();
+            textView.setText(Integer.toString(args.getInt(ARG_SECTION_NUMBER)));
+            return textView;
+        }
+    }
 }
