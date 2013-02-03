@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,8 @@ import de.reneruck.expensetracker.settings.SettingsActivity;
  */
 public class NewEntryActivtiy extends SherlockFragmentActivity {
 
+	private static final String TAG = "NewEntryActivity";
+	
 	private ExpenseEntry currentEntry;
 	private AppContext context;
 	private SectionsPagerAdapter sectionsPagerAdapter;
@@ -83,7 +86,7 @@ public class NewEntryActivtiy extends SherlockFragmentActivity {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+		public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -120,9 +123,9 @@ public class NewEntryActivtiy extends SherlockFragmentActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
-                case 0: return getString(R.string.title_new_entry_section1).toUpperCase();
-                case 1: return getString(R.string.title_new_entry_section2).toUpperCase();
-                case 2: return getString(R.string.title_new_entry_section3).toUpperCase();
+                case 0: return getString(R.string.title_new_entry_section1);
+                case 1: return getString(R.string.title_new_entry_section2);
+                case 2: return getString(R.string.title_new_entry_section3);
             }
             return null;
         }

@@ -1,6 +1,7 @@
 package de.reneruck.expensetracker;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +22,7 @@ import de.reneruck.expensetracker.model.ExpenseEntry;
 public class FragmentValueInput extends SherlockFragment {
 
 
+	private static final String TAG = "FragmentValueInput";
 	private TextView valueInput;
 	private String formerInputValue;
 	private ExpenseEntry currentEntry;
@@ -87,5 +89,11 @@ public class FragmentValueInput extends SherlockFragment {
 			String newValue = valueInput.getText() + tag;
 			valueInput.setText(newValue);
 		}
+	};
+	
+	public void onPause() {
+		super.onPause();
+		Log.d(TAG, "OnPause- storing value to current entry");
+//		this.currentEntry.setValue(Double.parseDouble(this.valueInput.getText().toString()));
 	};
 }
