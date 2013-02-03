@@ -1,6 +1,8 @@
 package de.reneruck.expensetracker.db;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.content.Context;
@@ -58,6 +60,27 @@ public class SqliteStorageManager {
 		instructions.setDeleteFlag(true);
 		AsyncStoreOrUpdateEntries storeTask = new AsyncStoreOrUpdateEntries(this.dbHelper, this);
 		storeTask.execute(instructions);
+	}
+	
+	/**
+	 * Queries all stored Descriptions and returns them.
+	 * 
+	 * @return {@link List} of all Descriptions
+	 */
+	public List<String> getAllDescriptions() {
+		return new LinkedList<String>();
+	}
+	
+	/**
+	 * Queries all stored {@link Category}'s and returns them ordered by their
+	 * count field.
+	 * 
+	 * @return ordered {@link ArrayList} of {@link Category}'s by their count
+	 *         field.
+	 */
+	public ArrayList<Category> getAllCategories() {
+		return new ArrayList<Category>();
+		
 	}
 	
 	/**
