@@ -1,6 +1,7 @@
 package de.reneruck.expensetracker;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Application;
 import android.content.SharedPreferences;
@@ -22,13 +23,17 @@ public class AppContext extends Application {
 	public static final String PREF_USER_CATEGORIES = "categories";
 
 	private SqliteStorageManager databaseManager;
-
+	private ArrayList<Category> categories;
+	private List<String> descriptions;
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 		this.databaseManager = new SqliteStorageManager(this);
-
+		this.categories = this.databaseManager.getAllCategories();
+		this.descriptions = this.databaseManager.getAllDescriptions();
+		
 		readSettings();
 	}
 	
@@ -48,8 +53,11 @@ public class AppContext extends Application {
 	}
 
 
-	public ArrayList<Category> getCategories() {
-		// TODO Auto-generated method stub
-		return new ArrayList<Category>();
+	public ArrayList<Category> getAllCategories() {
+		return this.categories;
+	}
+	
+	public List<String> getAllDescriptions() {
+		return this.descriptions;
 	}
 }

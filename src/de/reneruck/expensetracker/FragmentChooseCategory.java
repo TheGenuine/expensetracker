@@ -62,6 +62,6 @@ public class FragmentChooseCategory extends SherlockFragment {
 	}
 
 	private void getStoredCategories() {
-		this.categories = ((AppContext) getActivity().getApplicationContext()).getCategories();
+		this.categories = ((AppContext) getActivity().getApplicationContext()).getAllCategories();
 	}
 }
