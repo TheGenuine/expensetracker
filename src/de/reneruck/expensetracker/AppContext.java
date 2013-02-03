@@ -1,9 +1,12 @@
 package de.reneruck.expensetracker;
 
+import java.util.ArrayList;
+
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import de.reneruck.expensetracker.db.SqliteStorageManager;
+import de.reneruck.expensetracker.model.Category;
 
 /**
  * 
@@ -42,5 +45,11 @@ public class AppContext extends Application {
 
 	public void setDatabaseManager(SqliteStorageManager databaseManager) {
 		this.databaseManager = databaseManager;
+	}
+
+
+	public ArrayList<Category> getCategories() {
+		// TODO Auto-generated method stub
+		return new ArrayList<Category>();
 	}
 }

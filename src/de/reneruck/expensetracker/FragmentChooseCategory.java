@@ -1,23 +1,19 @@
 package de.reneruck.expensetracker;
 
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.ArrayList;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
+import de.reneruck.expensetracker.model.Category;
 import de.reneruck.expensetracker.model.ExpenseEntry;
 
 /**
@@ -29,12 +25,16 @@ import de.reneruck.expensetracker.model.ExpenseEntry;
  */
 public class FragmentChooseCategory extends SherlockFragment {
 
+	private static final String TAG = "FragmentChooseCategory";
 	private ExpenseEntry currentEntry;
+	private ArrayList<Category> categories;
 
 	public FragmentChooseCategory() {
+		getStoredCategories();
 	}
 	
 	public FragmentChooseCategory(ExpenseEntry currentEntry) {
+		getStoredCategories();
 		this.currentEntry = currentEntry;
 	}
 
@@ -43,28 +43,25 @@ public class FragmentChooseCategory extends SherlockFragment {
 
 		View inflated = inflater.inflate(R.layout.new_entry_choose_category, container, false);
 		ListView categoryList = (ListView) inflated.findViewById(R.id.predefined_category);
+		categoryList.setOnItemClickListener(this.itemclickListener);
 		fillCategoryList(categoryList);
 		return inflated;
 	}
+	
+	private OnItemClickListener itemclickListener = new OnItemClickListener() {
+
+		public void onItemClick(AdapterView<?> va, View view, int pos, long id) {
+			currentEntry.setCategory(categories.get(pos));
+		}
+	};
 
 	private void fillCategoryList(ListView categoryList) {
-		List<String> categories = getStoredCategories();
 		if(categoryList != null) {
-			categoryList.setAdapter(new ArrayAdapter<String>(getSherlockActivity(), android.R.layout.simple_selectable_list_item, categories));
+			categoryList.setAdapter(new ArrayAdapter<Category>(getSherlockActivity(), android.R.layout.simple_selectable_list_item, this.categories));
 		}
 	}
 
-	private List<String> getStoredCategories() {
-		SharedPreferences preferences = getSherlockActivity().getSharedPreferences(AppContext.PREF_USER, Context.MODE_PRIVATE);
-		return getList(preferences.getString(AppContext.PREF_USER_CATEGORIES, ""));
+	private void getStoredCategories() {
+		this.categories = ((AppContext) getActivity().getApplicationContext()).getCategories();
 	}
-
-	private List<String> getList(String string) {
-		if(string.length() > 0) {
-			String[] split = string.split(";");
-			return Arrays.asList(split);
-		}
-		return new LinkedList<String>();
-	}
-	
 }

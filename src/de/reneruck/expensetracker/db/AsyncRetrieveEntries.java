@@ -25,6 +25,7 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 	private static final long TWENTY_FOUR_HOURS_IN_MS = 86400000;
 	private DatabaseHelper dbHelper;
 	private DatabaseQueryCallback callback;
+	private List<Category> prefetchedCategories;
 	
 	public AsyncRetrieveEntries(DatabaseHelper dbHelper, DatabaseQueryCallback callback) {
 		this.dbHelper = dbHelper;
@@ -90,10 +91,31 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 		List<ExpenseEntry> result = new LinkedList<ExpenseEntry>();
 		if(query.getCount() > 0){
 			for(query.moveToFirst(); query.isLast(); query.moveToNext()){
-				result.add(new ExpenseEntry(stringToSqlDate(query.getString(1)), query.getString(2), query.getDouble(3), Category.values()[query.getInt(4)]));
+				result.add(new ExpenseEntry(stringToSqlDate(query.getString(1)), query.getString(2), query.getDouble(3), getCategoryForId(query.getInt(4), readableDatabase)));
 			}
 		}
 		return result;
+	}
+
+	private Category getCategoryForId(int id, SQLiteDatabase readableDatabase) {
+		
+		if(this.prefetchedCategories == null) {
+			Cursor query = readableDatabase.query(DbConfigs.TABLE_CATEGORIES, new String[]{"*"}, null, null, null, null, null);
+			
+			this.prefetchedCategories = new LinkedList<Category>();
+			if(query.getCount() > 0){
+				for(query.moveToFirst(); query.isLast(); query.moveToNext()){
+					this.prefetchedCategories.add(new Category(query.getLong(0), query.getString(1), query.getInt(3)));
+				}
+			}
+		}
+		
+		for (Category categorie : this.prefetchedCategories) {
+			if(categorie.getId() == id) {
+				return categorie;
+			}
+		}
+		return null;
 	}
 
 	private Date stringToSqlDate(String sqlDate) {

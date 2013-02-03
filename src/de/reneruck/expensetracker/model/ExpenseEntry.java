@@ -46,31 +46,31 @@ public class ExpenseEntry {
 	}
 	
 	public long getId() {
-		return id;
+		return this.id;
 	}
 	public void setId(long id) {
 		this.id = id;
 	}
 	public Date getDate() {
-		return date;
+		return this.date;
 	}
 	public void setDate(Date date) {
 		this.date = date;
 	}
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
 	public double getValue() {
-		return value;
+		return this.value;
 	}
 	public void setValue(double value) {
 		this.value = value;
 	}
 	public Category getCategory() {
-		return category;
+		return this.category;
 	}
 	public void setCategory(Category category) {
 		this.category = category;

@@ -59,7 +59,7 @@ public class AsyncStoreOrUpdateEntries extends AsyncTask<QueryInstructions, Void
 		values.put(DbConfigs.FIELD_DATE, getSqlDateString(entry.getDate()));
 		values.put(DbConfigs.FIELD_DESCRIPTION, entry.getDescription());
 		values.put(DbConfigs.FIELD_VALUE, entry.getValue());
-		values.put(DbConfigs.FIELD_CATEGORY, entry.getCategory().ordinal());
+		values.put(DbConfigs.FIELD_CATEGORY, entry.getCategory().getId());
 
 		if(entryExists(writableDatabase, entry.getId())){
 			writableDatabase.updateWithOnConflict(DbConfigs.TABLE_EXPENSES, values, DbConfigs.FIELD_EXPENSES_ID + "=" + entry.getId(), null, SQLiteDatabase.CONFLICT_ROLLBACK);
