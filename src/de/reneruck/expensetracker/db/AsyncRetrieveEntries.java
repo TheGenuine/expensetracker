@@ -68,14 +68,6 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 			statement.append(DbConfigs.FIELD_CATEGORY + "=" + instructions.getCategory());
 		}
 		
-//		statement.append("ORDER BY " + DbConfigs.FIELD_DATE);
-//		
-//		if(instructions.getOrdering() != null) {
-//			statement.append(" " + instructions.getOrdering().toString());
-//		} else {
-//			statement.append(" DESC");
-//		}
-		
 		return statement.toString().length() > 1 ? statement.toString() : null;
 	}
 
