@@ -18,4 +18,14 @@ public class DbConfigs {
 	public static final String FIELD_VALUE = "value";
 	public static final String FIELD_CATEGORY = "category";
 
+	public static final String TABLE_CATEGORIES = "Categories";
+	public static final String FIELD_CATEGORY_ID = "id";
+	public static final String FIELD_CATEGORY_VALUE = "value";
+	public static final String FIELD_CATEGORY_COUNT = "count";
+	
+	
+	public static final String TABLE_DESCRIPTION = "Description";
+	public static final String FIELD_DESCRIPTION_ID = "id";
+	public static final String FIELD_DESCRIPTION_VALUE = "value";
+	public static final String FIELD_DESCRIPTION_COUNT = "count";
 }

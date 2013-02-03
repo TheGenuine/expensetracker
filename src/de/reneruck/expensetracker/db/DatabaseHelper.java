@@ -19,7 +19,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			"`" + DbConfigs.FIELD_DESCRIPTION + "` STRING NULL, " +
 			"`" + DbConfigs.FIELD_VALUE + "` DOUBLE NULL, " +
 			"`" + DbConfigs.FIELD_CATEGORY + "` INTEGER NULL)";
-
+	
+	private static final String CREATE_CATEGORIES_TABLE = "CREATE TABLE IF NOT EXISTS '" + DbConfigs.TABLE_CATEGORIES + "'" +
+			" (`" + DbConfigs.FIELD_CATEGORY_ID + "` LONG  PRIMARY KEY, " +
+			"`" + DbConfigs.FIELD_CATEGORY_VALUE + "` STRING NULL, " +
+			"`" + DbConfigs.FIELD_CATEGORY_COUNT + "` INT NULL, ";
+	
+	private static final String CREATE_DESCRIPTION_TABLE = "CREATE TABLE IF NOT EXISTS '" + DbConfigs.TABLE_DESCRIPTION + "'" +
+			" (`" + DbConfigs.FIELD_DESCRIPTION_ID + "` LONG  PRIMARY KEY, " +
+			"`" + DbConfigs.FIELD_DESCRIPTION_VALUE + "` STRING NULL, " +
+			"`" + DbConfigs.FIELD_DESCRIPTION_COUNT + "` INT NULL, ";
+	
 	public DatabaseHelper(Context context, String name, CursorFactory factory, int version) {
 		super(context, DbConfigs.DATABASE_NAME, factory,  DbConfigs.DATABASE_VERSION);
 	}
@@ -30,6 +40,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		try {
 			db.execSQL(CREATE_EXPENSES_TABLE);
+			db.execSQL(CREATE_CATEGORIES_TABLE);
+			db.execSQL(CREATE_DESCRIPTION_TABLE);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -41,6 +53,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		 * TODO: Here should happen a data migration!!  
 		 */
 		db.execSQL("DROP TABLE IF EXISTS " + DbConfigs.TABLE_EXPENSES + "");
+		db.execSQL("DROP TABLE IF EXISTS " + DbConfigs.TABLE_CATEGORIES + "");
+		db.execSQL("DROP TABLE IF EXISTS " + DbConfigs.TABLE_DESCRIPTION + "");
 		onCreate(db);
 	}
 }
