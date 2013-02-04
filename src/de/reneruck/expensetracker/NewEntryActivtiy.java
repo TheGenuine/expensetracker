@@ -39,6 +39,12 @@ public class NewEntryActivtiy extends SherlockFragmentActivity {
 	private SectionsPagerAdapter sectionsPagerAdapter;
 	private ViewPager viewPager;
 	
+	private Fragment fragmentValueInput;
+
+	private FragmentChooseDescription fragmentChooseDescription;
+
+	private FragmentChooseCategory fragmentChooseCategory;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,13 +52,29 @@ public class NewEntryActivtiy extends SherlockFragmentActivity {
 		
         this.context = (AppContext) getApplicationContext();
 		
+        this.currentEntry = this.context.getEntryToEdit();
+        
+        if(this.currentEntry != null) {
+        	getSupportActionBar().setTitle("Edit Entry");
+        } else {
+        	this.currentEntry = new ExpenseEntry();
+        }
+        
 		getSupportActionBar().setHomeButtonEnabled(true);
+		
+		setupFragments();
 		
         this.sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         this.viewPager = (ViewPager) findViewById(R.id.pager);
         this.viewPager.setAdapter(this.sectionsPagerAdapter);
+	}
+
+	private void setupFragments() {
+		this.fragmentValueInput = new FragmentValueInput(this.currentEntry);		
+		this.fragmentChooseCategory = new FragmentChooseCategory(this.context, this.currentEntry);		
+		this.fragmentChooseDescription = new FragmentChooseDescription(this.context, this.currentEntry);
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -68,9 +90,9 @@ public class NewEntryActivtiy extends SherlockFragmentActivity {
         	finish();
         	break;
         case R.id.menu_store_entry:
+        	collectData();
+        	storeEntry();
         	//TODO: make a check for empty inputs
-        	Toast.makeText(getApplicationContext(), "Storing Entry", Toast.LENGTH_SHORT).show();
-        	this.context.getDatabaseManager().storeOrUpdateExpenseEntry(this.currentEntry);
         	break;
         case R.id.menu_settings:
         	Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
@@ -80,11 +102,21 @@ public class NewEntryActivtiy extends SherlockFragmentActivity {
 		return true;
     }
     
-    /**
+    private void storeEntry() {
+    	Toast.makeText(getApplicationContext(), "Storing Entry", Toast.LENGTH_SHORT).show();
+    	this.context.getDatabaseManager().storeOrUpdateExpenseEntry(this.currentEntry);
+	}
+
+	private void collectData() {
+		
+	}
+
+	/**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the primary
      * sections of the app.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
 
 		public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -96,14 +128,14 @@ public class NewEntryActivtiy extends SherlockFragmentActivity {
         	Bundle args = new Bundle();
         	
         	switch (i) {
-				case 0: // Overview
-					fragment = new FragmentValueInput(currentEntry);
+				case 0: // value input
+					fragment = fragmentValueInput;
 					break;
-				case 1: // New Booking
-					fragment = new FragmentChooseCategory(context, currentEntry);
+				case 1: // choose category
+					fragment = fragmentChooseCategory;
 					break;
-				case 2: // Manage Bookings
-					fragment = new FragmentChooseDescription(context, currentEntry);
+				case 2: // choose description
+					fragment = fragmentChooseDescription;
 					break;
 
 			default:

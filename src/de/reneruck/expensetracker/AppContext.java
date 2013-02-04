@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import de.reneruck.expensetracker.db.SqliteStorageManager;
 import de.reneruck.expensetracker.model.Category;
+import de.reneruck.expensetracker.model.ExpenseEntry;
 
 /**
  * 
@@ -25,6 +26,8 @@ public class AppContext extends Application {
 	private SqliteStorageManager databaseManager;
 	private ArrayList<Category> categories;
 	private List<String> descriptions;
+
+	private ExpenseEntry entryToEdit;
 	
 	@Override
 	public void onCreate() {
@@ -59,5 +62,15 @@ public class AppContext extends Application {
 	
 	public List<String> getAllDescriptions() {
 		return this.descriptions;
+	}
+
+
+	public ExpenseEntry getEntryToEdit() {
+		return this.entryToEdit;
+	}
+
+
+	public void setEntryToEdit(ExpenseEntry entryToEdit) {
+		this.entryToEdit = entryToEdit;
 	}
 }
