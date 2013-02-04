@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.util.Log;
 
 /**
  * 
@@ -16,6 +17,7 @@ import android.os.AsyncTask;
  */
 public class AsyncStoreOrUpdateEntries extends AsyncTask<QueryInstructions, Void, Void> {
 
+	private static final String TAG = "AsyncStoreOrUpdateEntries";
 	DatabaseHelper dbHelper;
 	private SqliteStorageManager callback;
 	
@@ -37,6 +39,8 @@ public class AsyncStoreOrUpdateEntries extends AsyncTask<QueryInstructions, Void
 				
 				if(entry != null) {
 					writeToDatabase(entry);
+				} else {
+					Log.e(TAG, "Entry was null, cannot procede");
 				}
 			}
 			
