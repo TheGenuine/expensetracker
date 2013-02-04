@@ -28,14 +28,20 @@ public class FragmentChooseCategory extends SherlockFragment {
 	private static final String TAG = "FragmentChooseCategory";
 	private ExpenseEntry currentEntry;
 	private ArrayList<Category> categories;
+	private AppContext context;
 
 	public FragmentChooseCategory() {
+	}
+	
+	public FragmentChooseCategory(AppContext context) {
+		this.context = context;
 		getStoredCategories();
 	}
 	
-	public FragmentChooseCategory(ExpenseEntry currentEntry) {
-		getStoredCategories();
+	public FragmentChooseCategory(AppContext context, ExpenseEntry currentEntry) {
+		this.context = context;
 		this.currentEntry = currentEntry;
+		getStoredCategories();
 	}
 
 	@Override
@@ -62,6 +68,7 @@ public class FragmentChooseCategory extends SherlockFragment {
 	}
 
 	private void getStoredCategories() {
-		this.categories = ((AppContext) getActivity().getApplicationContext()).getAllCategories();
+		this.categories = this.context.getAllCategories(); 
 	}
+	
 }

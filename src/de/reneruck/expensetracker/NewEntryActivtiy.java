@@ -100,10 +100,10 @@ public class NewEntryActivtiy extends SherlockFragmentActivity {
 					fragment = new FragmentValueInput(currentEntry);
 					break;
 				case 1: // New Booking
-					fragment = new FragmentChooseCategory(currentEntry);
+					fragment = new FragmentChooseCategory(context, currentEntry);
 					break;
 				case 2: // Manage Bookings
-					fragment = new FragmentChooseDescription(currentEntry);
+					fragment = new FragmentChooseDescription(context, currentEntry);
 					break;
 
 			default:

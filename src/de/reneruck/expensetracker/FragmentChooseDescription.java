@@ -31,11 +31,13 @@ public class FragmentChooseDescription extends SherlockFragment {
 
 	private static final String TAG = "FragmentChooseDescription";
 	private ExpenseEntry currentEntry;
+	private AppContext appContext;
 
 	public FragmentChooseDescription() {
 	}
 	
-	public FragmentChooseDescription(ExpenseEntry currentEntry) {
+	public FragmentChooseDescription(AppContext context, ExpenseEntry currentEntry) {
+		this.appContext = context;
 		this.currentEntry = currentEntry;
 	}
 
