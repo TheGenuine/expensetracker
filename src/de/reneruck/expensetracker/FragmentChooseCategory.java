@@ -2,13 +2,19 @@ package de.reneruck.expensetracker;
 
 import java.util.ArrayList;
 
+import android.content.Context;
+import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -29,6 +35,7 @@ public class FragmentChooseCategory extends SherlockFragment {
 	private ExpenseEntry currentEntry;
 	private ArrayList<Category> categories;
 	private AppContext context;
+	private View layout;
 
 	public FragmentChooseCategory() {
 	}
@@ -47,11 +54,12 @@ public class FragmentChooseCategory extends SherlockFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		View inflated = inflater.inflate(R.layout.new_entry_choose_category, container, false);
-		ListView categoryList = (ListView) inflated.findViewById(R.id.predefined_category);
+		this.layout = inflater.inflate(R.layout.new_entry_choose_category, container, false);
+		ListView categoryList = (ListView) layout.findViewById(R.id.predefined_category);
 		categoryList.setOnItemClickListener(this.itemclickListener);
+		((ImageView) this.layout.findViewById(R.id.button_new_category)).setOnClickListener(this.onAddNewCategoryListener);
 		fillCategoryList(categoryList);
-		return inflated;
+		return this.layout;
 	}
 	
 	private OnItemClickListener itemclickListener = new OnItemClickListener() {
@@ -61,6 +69,28 @@ public class FragmentChooseCategory extends SherlockFragment {
 		}
 	};
 
+	private OnClickListener onAddNewCategoryListener = new OnClickListener() {
+		
+		public void onClick(View v) {
+			safeNewCategory();
+		}
+	};
+	
+	private void safeNewCategory() {
+		if(this.layout != null) {
+			View input = this.layout.findViewById(R.id.new_category_input);
+			if(input != null){
+				String newCategoryText = ((EditText) input).getText().toString();
+				if(newCategoryText.length() > 1) {
+					this.currentEntry.setCategory(new Category(-1, newCategoryText, 0));
+					InputMethodManager imm = (InputMethodManager) this.context.getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
+					// TODO color text input
+				}
+			}
+		}
+	}
+	
 	private void fillCategoryList(ListView categoryList) {
 		if(categoryList != null) {
 			categoryList.setAdapter(new ArrayAdapter<Category>(getSherlockActivity(), android.R.layout.simple_selectable_list_item, this.categories));

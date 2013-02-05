@@ -24,7 +24,6 @@ public class FragmentValueInput extends SherlockFragment {
 
 	private static final String TAG = "FragmentValueInput";
 	private TextView valueInput;
-	private String formerInputValue;
 	private ExpenseEntry currentEntry;
 
 	public FragmentValueInput() {
@@ -41,7 +40,6 @@ public class FragmentValueInput extends SherlockFragment {
 		setButtonListener(inflated);
 		this.valueInput = (TextView) inflated.findViewById(R.id.value_input_value);
 		this.valueInput.setFocusable(false);
-		this.valueInput.setText(this.formerInputValue);
 		
 		return inflated;
 	}
@@ -63,14 +61,20 @@ public class FragmentValueInput extends SherlockFragment {
 		inflated.findViewById(R.id.button_comma).setOnClickListener(this.numberButtonClickListener);
 	}
 	
+	private void updateEntryValue() {
+		this.currentEntry.setValue(Double.parseDouble(this.valueInput.getText().toString()));
+	}
+	
 	private OnClickListener delButtonClickListener = new OnClickListener() {
 		
 		public void onClick(View v) {
 			CharSequence text = valueInput.getText();
 			if (text.length() > 0) {
 				valueInput.setText(text.subSequence(0, text.length() - 1));
+				updateEntryValue();
 			}
 		}
+
 	};
 	
 	
@@ -88,12 +92,12 @@ public class FragmentValueInput extends SherlockFragment {
 			}
 			String newValue = valueInput.getText() + tag;
 			valueInput.setText(newValue);
+			
+			updateEntryValue();
 		}
 	};
 	
 	public void onPause() {
 		super.onPause();
-		Log.d(TAG, "OnPause- storing value to current entry");
-//		this.currentEntry.setValue(Double.parseDouble(this.valueInput.getText().toString()));
 	};
 }

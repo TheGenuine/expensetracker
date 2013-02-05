@@ -21,6 +21,7 @@ public class ExpenseEntry {
 	
 	public ExpenseEntry() {
 		this.date = new Date(System.currentTimeMillis());
+		this.id = this.date.getTime();
 	}
 	
 	public ExpenseEntry(long id, Date date, String description, double value, Category category) {
