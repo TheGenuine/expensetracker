@@ -26,6 +26,9 @@ public class FragmentAllItems extends SherlockFragment implements DatabaseQueryC
 	private ViewGroup container;
 	private AppContext context;
 
+	public FragmentAllItems() {
+	}
+	
 	public FragmentAllItems(AppContext context) {
 		this.context = context;
 	}
