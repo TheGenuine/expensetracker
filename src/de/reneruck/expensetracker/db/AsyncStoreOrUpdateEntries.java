@@ -3,6 +3,7 @@ package de.reneruck.expensetracker.db;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import de.reneruck.expensetracker.model.Category;
 import de.reneruck.expensetracker.model.ExpenseEntry;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -38,6 +39,7 @@ public class AsyncStoreOrUpdateEntries extends AsyncTask<QueryInstructions, Void
 				ExpenseEntry entry = instructions.getEntry();
 				
 				if(entry != null) {
+					checkCategory(entry);
 					writeToDatabase(entry);
 				} else {
 					Log.e(TAG, "Entry was null, cannot procede");
@@ -46,6 +48,23 @@ public class AsyncStoreOrUpdateEntries extends AsyncTask<QueryInstructions, Void
 			
 		}
 		return null;
+	}
+
+	private void checkCategory(ExpenseEntry entry) {
+		if(entry.getCategory().getId() == -1) {
+			long id = storeNewCategory(entry.getCategory());
+			entry.getCategory().setId(id);
+		}
+	}
+
+	private long storeNewCategory(Category category) {
+		SQLiteDatabase writableDatabase = this.dbHelper.getWritableDatabase();
+		ContentValues values = new ContentValues(2);
+		values.put(DbConfigs.FIELD_CATEGORY_VALUE, category.getValue());
+		values.put(DbConfigs.FIELD_CATEGORY_COUNT, 1);
+		long insert = writableDatabase.insert(DbConfigs.TABLE_CATEGORIES, null, values);
+		writableDatabase.close();
+		return insert;
 	}
 
 	private void deleteEntry(long entryId) {
