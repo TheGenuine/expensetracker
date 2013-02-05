@@ -90,9 +90,10 @@ public class NewEntryActivtiy extends SherlockFragmentActivity {
         	finish();
         	break;
         case R.id.menu_store_entry:
+        	//TODO: make a check for empty inputs
         	collectData();
         	storeEntry();
-        	//TODO: make a check for empty inputs
+        	finish();
         	break;
         case R.id.menu_settings:
         	Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
