@@ -21,7 +21,7 @@ import android.util.Log;
  */
 public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, List<ExpenseEntry>> {
 
-	private static final String TAG = null;
+	private static final String TAG = "AsyncRetriveEntries";
 	private static final long TWENTY_FOUR_HOURS_IN_MS = 86400000;
 	private DatabaseHelper dbHelper;
 	private DatabaseQueryCallback callback;
@@ -34,6 +34,7 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 
 	@Override
 	protected void onPostExecute(List<ExpenseEntry> result) {
+		Log.d(TAG, "Database query finished, " + result.size() + " entries retrieved");
 		if(this.callback != null) {
 			this.callback.queryFinished(result);
 		}
@@ -97,7 +98,7 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 			this.prefetchedCategories = new LinkedList<Category>();
 			if(query.getCount() > 0){
 				for(query.moveToFirst(); query.isLast(); query.moveToNext()){
-					this.prefetchedCategories.add(new Category(query.getLong(0), query.getString(1), query.getInt(3)));
+					this.prefetchedCategories.add(new Category(query.getLong(0), query.getString(1), query.getInt(2)));
 				}
 			}
 		}
