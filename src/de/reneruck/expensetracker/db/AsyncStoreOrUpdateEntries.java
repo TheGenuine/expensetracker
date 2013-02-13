@@ -50,6 +50,14 @@ public class AsyncStoreOrUpdateEntries extends AsyncTask<QueryInstructions, Void
 		return null;
 	}
 
+	/**
+	 * Check if {@link Category} of given {@link ExpenseEntry} is already
+	 * present in the database. If not add it to the database and set the
+	 * generated id in the {@link ExpenseEntry}
+	 * 
+	 * @param entry
+	 *            the {@link ExpenseEntry} to work with
+	 */
 	private void checkCategory(ExpenseEntry entry) {
 		if(entry.getCategory().getId() == -1) {
 			long id = storeNewCategory(entry.getCategory());
