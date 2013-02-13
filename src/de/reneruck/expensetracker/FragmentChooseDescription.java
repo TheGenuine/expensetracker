@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -81,13 +82,17 @@ public class FragmentChooseDescription extends SherlockFragment {
 			View input = this.layout.findViewById(R.id.new_description_input);
 			if(input != null){
 				String newDescriptionText = ((EditText) input).getText().toString();
+				
 				if(newDescriptionText.length() > 1) {
 					this.currentEntry.setDescription(newDescriptionText);
 					InputMethodManager imm = (InputMethodManager) this.context.getSystemService(Context.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
+					Toast.makeText(this.context, getString(R.string.new_description_saved_message), Toast.LENGTH_SHORT).show();
 					// TODO color text input
+				} else {
+					Toast.makeText(this.context, getString(R.string.new_description_empty_message), Toast.LENGTH_SHORT).show();
 				}
-			}
+			} 
 		}
 	}
 	

@@ -21,4 +21,10 @@
     <string name="cancel">Abbrechen</string>
         
      <string name="dialog_value_input_title">Betrag eingeben</string>
+     
+     <string name="new_category_empty_message">Gib eine neue Kategorie an um sie hinzuzufügen</string>
+     <string name="new_category_saved_message">Ketegorie gespeichert</string>
+     
+     <string name="new_description_empty_message">Gib eine neue Beschreibung an um sie hinzuzufügen</string>
+     <string name="new_description_saved_message">Beschreibung gespeichert</string>
 </resources>

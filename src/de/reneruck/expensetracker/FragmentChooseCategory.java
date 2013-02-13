@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -81,13 +82,17 @@ public class FragmentChooseCategory extends SherlockFragment {
 			View input = this.layout.findViewById(R.id.new_category_input);
 			if(input != null){
 				String newCategoryText = ((EditText) input).getText().toString();
+				
 				if(newCategoryText.length() > 1) {
 					this.currentEntry.setCategory(new Category(-1, newCategoryText, 0));
 					InputMethodManager imm = (InputMethodManager) this.context.getSystemService(Context.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
+					Toast.makeText(this.context, R.string.new_category_saved_message, Toast.LENGTH_SHORT).show();
 					// TODO color text input
+				} else {
+					Toast.makeText(this.context, R.string.new_category_empty_message, Toast.LENGTH_SHORT).show();
 				}
-			}
+			} 
 		}
 	}
 	
