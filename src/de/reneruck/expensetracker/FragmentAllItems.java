@@ -38,7 +38,9 @@ public class FragmentAllItems extends SherlockFragment implements DatabaseQueryC
 		View inflated = inflater.inflate(R.layout.busy, container, false);
 		((TextView) inflated.findViewById(R.id.busy_text_wait)).setText(R.string.retrieving_items);
 		this.container = container;
-		this.context.getDatabaseManager().getAllExpensEntries(Ordering.DESC, this);
+		if(this.context != null) {
+			this.context.getDatabaseManager().getAllExpensEntries(Ordering.DESC, this);
+		}
 		return inflated;
 	}
 
