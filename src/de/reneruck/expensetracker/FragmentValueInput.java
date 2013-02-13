@@ -25,7 +25,8 @@ public class FragmentValueInput extends SherlockFragment {
 	private static final String TAG = "FragmentValueInput";
 	private TextView valueInput;
 	private ExpenseEntry currentEntry;
-
+	private boolean tempZero = false;
+	
 	public FragmentValueInput() {
 	}
 	
@@ -62,7 +63,7 @@ public class FragmentValueInput extends SherlockFragment {
 	}
 	
 	private void updateEntryValue() {
-		this.currentEntry.setValue(Double.parseDouble(this.valueInput.getText().toString()));
+		this.currentEntry.setValue(this.valueInput.getText().length() > 0 ? Double.parseDouble(this.valueInput.getText().toString()) : 0);
 	}
 	
 	private OnClickListener delButtonClickListener = new OnClickListener() {
@@ -70,7 +71,12 @@ public class FragmentValueInput extends SherlockFragment {
 		public void onClick(View v) {
 			CharSequence text = valueInput.getText();
 			if (text.length() > 0) {
-				valueInput.setText(text.subSequence(0, text.length() - 1));
+				int end = text.length() - 1;
+				if(end > 0) {
+					valueInput.setText(text.subSequence(0, end));
+				} else {
+					valueInput.setText("");
+				}
 				updateEntryValue();
 			}
 		}
@@ -81,22 +87,57 @@ public class FragmentValueInput extends SherlockFragment {
 	private OnClickListener numberButtonClickListener = new OnClickListener() {
 		
 		public void onClick(View v) {
-			String tag = (String) v.getTag();
-			
-			if (tag != "0" && valueInput.getText() == "0") {
-				valueInput.setText("");
-			}
-			
-			if (tag == "," && valueInput.getText().length() == 0) {
-				valueInput.setText("0");
-			}
-			String newValue = valueInput.getText() + tag;
-			valueInput.setText(newValue);
-			
+			handleButtonPress(v);
 			updateEntryValue();
 		}
 	};
 	
+	private void handleButtonPress(View v) {
+		String tag = (String) v.getTag();
+		String inputfieldValue = this.valueInput.getText().toString();
+		
+		String newValue = "";
+		if(inputfieldValue.endsWith("0") && this.tempZero) {
+			this.tempZero = false;
+			inputfieldValue = inputfieldValue.substring(0, inputfieldValue.length() - 1);
+		}
+		
+		if (tag.equals(".")) {
+			
+			if(!inputfieldValue.contains(".")){
+				if(inputfieldValue.length() == 0) {
+					newValue = "0.";
+				} else {
+					newValue = inputfieldValue + tag;
+				}
+			} else {
+				newValue = inputfieldValue;
+			}
+		} else {
+			newValue = inputfieldValue + tag;
+		}
+		
+		if(newValue.endsWith(".")) {
+			this.tempZero = true;
+			newValue = newValue + "0";
+		}
+
+		this.valueInput.setText(removeLeadingZeros(newValue));
+	}
+	
+	private String removeLeadingZeros(String newValue) {
+		CharSequence sequence = newValue.substring(0);
+
+		for (int j = 0; j < sequence.length(); j++) {
+			if(sequence.charAt(j) == '.') {
+				return newValue.substring(j - 1);
+			} else if(sequence.charAt(j) != '0') {
+				return newValue.substring(j);
+			}
+		}
+		return newValue;
+	}
+
 	public void onPause() {
 		super.onPause();
 	};

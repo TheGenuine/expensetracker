@@ -22,7 +22,7 @@
         android:layout_marginLeft="10dip"
         android:layout_toRightOf="@+id/value_sign"
         android:ems="10"
-        android:hint="0,00"
+        android:hint="0.00"
         android:gravity="right"
         android:textIsSelectable="false" />
 
@@ -164,7 +164,7 @@
             android:background="#eeeeee"
             android:padding="15dip"
             android:src="@drawable/ic_comma"
-            android:tag="," />
+            android:tag="." />
         
         <ImageView
             android:id="@+id/button_0"
