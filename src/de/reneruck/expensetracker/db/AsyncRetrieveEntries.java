@@ -83,7 +83,7 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 		
 		List<ExpenseEntry> result = new LinkedList<ExpenseEntry>();
 		if(query.getCount() > 0){
-			for(query.moveToFirst(); query.isLast(); query.moveToNext()){
+			while(query.moveToNext()){
 				result.add(new ExpenseEntry(stringToSqlDate(query.getString(1)), query.getString(2), query.getDouble(3), getCategoryForId(query.getInt(4), readableDatabase)));
 			}
 		}
@@ -97,7 +97,7 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 			
 			this.prefetchedCategories = new LinkedList<Category>();
 			if(query.getCount() > 0){
-				for(query.moveToFirst(); query.isLast(); query.moveToNext()){
+				while(query.moveToNext()){
 					this.prefetchedCategories.add(new Category(query.getLong(0), query.getString(1), query.getInt(2)));
 				}
 			}
