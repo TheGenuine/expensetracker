@@ -2,11 +2,13 @@ package de.reneruck.expensetracker.db;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import de.reneruck.expensetracker.model.Category;
+import de.reneruck.expensetracker.model.Description;
 import de.reneruck.expensetracker.model.ExpenseEntry;
 
 import android.database.Cursor;
@@ -24,10 +26,11 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 	private static final String TAG = "AsyncRetriveEntries";
 	private static final long TWENTY_FOUR_HOURS_IN_MS = 86400000;
 	private DatabaseHelper dbHelper;
-	private DatabaseQueryCallback callback;
+	private ExpenseQueryCallback callback;
 	private List<Category> prefetchedCategories;
+	private List<Description> prefetchedDescriptions;
 	
-	public AsyncRetrieveEntries(DatabaseHelper dbHelper, DatabaseQueryCallback callback) {
+	public AsyncRetrieveEntries(DatabaseHelper dbHelper, ExpenseQueryCallback callback) {
 		this.dbHelper = dbHelper;
 		this.callback = callback;
 	}
@@ -84,7 +87,36 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 		List<ExpenseEntry> result = new LinkedList<ExpenseEntry>();
 		if(query.getCount() > 0){
 			while(query.moveToNext()){
-				result.add(new ExpenseEntry(stringToSqlDate(query.getString(1)), query.getString(2), query.getDouble(3), getCategoryForId(query.getInt(4), readableDatabase)));
+				result.add(new ExpenseEntry(stringToSqlDate(query.getString(1)), getDescriptionForId(query.getInt(2), readableDatabase), query.getDouble(3), getCategoryForId(query.getInt(4), readableDatabase)));
+			}
+		}
+		query.close();
+		readableDatabase.close();
+		return result;
+	}
+
+	private Description getDescriptionForId(int descriptionId, SQLiteDatabase readableDatabase) {
+
+		if(this.prefetchedDescriptions == null) {
+			this.prefetchedDescriptions = getAllDescriptions(readableDatabase);
+		}
+		
+		for (Description description : this.prefetchedDescriptions) {
+			if(description.getId() == descriptionId) {
+				return description;
+			}
+		}
+		return null;
+	}
+
+	private List<Description> getAllDescriptions(SQLiteDatabase readableDatabase) {
+		List<Description> result = new ArrayList<Description>();
+
+		Cursor query = readableDatabase.query(DbConfigs.TABLE_DESCRIPTION, new String[]{"*"}, null, null, null, null, DbConfigs.FIELD_DESCRIPTION_COUNT);
+		
+		if(query.getCount() > 0){
+			while(query.moveToNext()){
+				result.add(new Description(query.getInt(0), query.getString(1), query.getInt(2)));
 			}
 		}
 		return result;
@@ -93,14 +125,7 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 	private Category getCategoryForId(int id, SQLiteDatabase readableDatabase) {
 		
 		if(this.prefetchedCategories == null) {
-			Cursor query = readableDatabase.query(DbConfigs.TABLE_CATEGORIES, new String[]{"*"}, null, null, null, null, null);
-			
-			this.prefetchedCategories = new LinkedList<Category>();
-			if(query.getCount() > 0){
-				while(query.moveToNext()){
-					this.prefetchedCategories.add(new Category(query.getLong(0), query.getString(1), query.getInt(2)));
-				}
-			}
+			this.prefetchedCategories = getAllCategories(readableDatabase);
 		}
 		
 		for (Category categorie : this.prefetchedCategories) {
@@ -109,6 +134,18 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 			}
 		}
 		return null;
+	}
+
+	private List<Category> getAllCategories(SQLiteDatabase readableDatabase) {
+		Cursor query = readableDatabase.query(DbConfigs.TABLE_CATEGORIES, new String[]{"*"}, null, null, null, null, null);
+		
+		List<Category> resultCategories = new ArrayList<Category>();
+		if(query.getCount() > 0){
+			while(query.moveToNext()){
+				resultCategories.add(new Category(query.getLong(0), query.getString(1), query.getInt(2)));
+			}
+		}
+		return resultCategories;
 	}
 
 	private Date stringToSqlDate(String sqlDate) {

@@ -13,18 +13,18 @@ import java.util.Date;
  */
 public class ExpenseEntry {
 
-	long id;
-	Date date;
-	String description;
-	double value;
-	Category category;
+	private long id;
+	private Date date;
+	private Description description;
+	private double value;
+	private Category category;
 	
 	public ExpenseEntry() {
 		this.date = new Date(System.currentTimeMillis());
 		this.id = this.date.getTime();
 	}
 	
-	public ExpenseEntry(long id, Date date, String description, double value, Category category) {
+	public ExpenseEntry(long id, Date date, Description description, double value, Category category) {
 		this(date, description, value, category);
 		this.id = id;
 	}
@@ -41,7 +41,7 @@ public class ExpenseEntry {
 	 *            one of a {@link Category} if not set, a default category will
 	 *            be used.
 	 */
-	public ExpenseEntry(Date date, String description, double value, Category category) {
+	public ExpenseEntry(Date date, Description description, double value, Category category) {
 		super();
 		this.id = System.currentTimeMillis();
 		this.date = date;
@@ -62,10 +62,10 @@ public class ExpenseEntry {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public String getDescription() {
+	public Description getDescription() {
 		return this.description;
 	}
-	public void setDescription(String description) {
+	public void setDescription(Description description) {
 		this.description = description;
 	}
 	public double getValue() {

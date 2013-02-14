@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String CREATE_EXPENSES_TABLE = "CREATE  TABLE IF NOT EXISTS `" + DbConfigs.TABLE_EXPENSES + "`" +
 			" (`" + DbConfigs.FIELD_EXPENSES_ID + "` LONG  PRIMARY KEY, " +
 			"`" + DbConfigs.FIELD_DATE + "` DATE NULL, " +
-			"`" + DbConfigs.FIELD_DESCRIPTION + "` STRING NULL, " +
+			"`" + DbConfigs.FIELD_DESCRIPTION + "` INTEGER NULL, " +
 			"`" + DbConfigs.FIELD_VALUE + "` DOUBLE NULL, " +
 			"`" + DbConfigs.FIELD_CATEGORY + "` INTEGER NULL)";
 	

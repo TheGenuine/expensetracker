@@ -397,8 +397,8 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
     		// append normal entry
     		view = appendEntry((ViewGroup) view, item);
         } else {
-    		text.setText(item.getDescription());
-        	value.setText("-" + item.getValue() + "€");        	
+    		text.setText(item.getDescription().getValue());
+        	value.setText(item.getValue() + " €");        	
         }
         return view;
     }
@@ -410,7 +410,7 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
 	}
 
 	private View createEntry(View view, ExpenseEntry item) {
-		((TextView) view.findViewById(R.id.expense_entry_description)).setText(item.getDescription());
+		((TextView) view.findViewById(R.id.expense_entry_description)).setText(item.getDescription().getValue());
 		((TextView) view.findViewById(R.id.expense_entry_value)).setText("-" + item.getValue() + "€");
 		return view;
 	}

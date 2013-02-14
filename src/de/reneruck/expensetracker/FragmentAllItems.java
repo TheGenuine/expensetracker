@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-import de.reneruck.expensetracker.db.DatabaseQueryCallback;
+import de.reneruck.expensetracker.db.ExpenseQueryCallback;
 import de.reneruck.expensetracker.model.ExpenseEntry;
 import de.reneruck.expensetracker.model.Ordering;
 
@@ -22,7 +22,7 @@ import de.reneruck.expensetracker.model.Ordering;
  * @author Rene
  * 
  */
-public class FragmentAllItems extends SherlockFragment implements DatabaseQueryCallback {
+public class FragmentAllItems extends SherlockFragment implements ExpenseQueryCallback {
 
 	private static final String TAG = "FragmentAllItems";
 	private ViewGroup container;

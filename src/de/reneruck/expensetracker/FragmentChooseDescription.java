@@ -1,5 +1,6 @@
 package de.reneruck.expensetracker;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,6 +23,8 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
+import de.reneruck.expensetracker.db.DescriptionQueryCallback;
+import de.reneruck.expensetracker.model.Description;
 import de.reneruck.expensetracker.model.ExpenseEntry;
 
 /**
@@ -31,12 +34,14 @@ import de.reneruck.expensetracker.model.ExpenseEntry;
  * @author Rene
  * 
  */
-public class FragmentChooseDescription extends SherlockFragment {
+public class FragmentChooseDescription extends SherlockFragment implements DescriptionQueryCallback {
 
 	private static final String TAG = "FragmentChooseDescription";
 	private ExpenseEntry currentEntry;
 	private AppContext context;
 	private View layout;
+	private ListView descriptionList;
+	private ArrayList<Description> descriptions;
 
 	public FragmentChooseDescription() {
 	}
@@ -50,10 +55,10 @@ public class FragmentChooseDescription extends SherlockFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		this.layout = inflater.inflate(R.layout.new_entry_choose_description, container, false);
-		ListView descriptionList = (ListView) this.layout.findViewById(R.id.predefined_description);
-		descriptionList.setOnItemSelectedListener(this.onEntrySelectListener);
+		this.descriptionList = (ListView) this.layout.findViewById(R.id.predefined_description);
+		this.descriptionList.setOnItemSelectedListener(this.onEntrySelectListener);
 		((ImageView) this.layout.findViewById(R.id.button_new_description)).setOnClickListener(this.onAddNewDescriptionListener);
-		fillDescriptionList(descriptionList);
+		queryAllDescriptions();
 		return this.layout;
 	}
 	
@@ -84,7 +89,7 @@ public class FragmentChooseDescription extends SherlockFragment {
 				String newDescriptionText = ((EditText) input).getText().toString();
 				
 				if(newDescriptionText.length() > 1) {
-					this.currentEntry.setDescription(newDescriptionText);
+					this.currentEntry.setDescription(new Description(-1, newDescriptionText, 1));
 					InputMethodManager imm = (InputMethodManager) this.context.getSystemService(Context.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
 					Toast.makeText(this.context, getString(R.string.new_description_saved_message), Toast.LENGTH_SHORT).show();
@@ -96,11 +101,8 @@ public class FragmentChooseDescription extends SherlockFragment {
 		}
 	}
 	
-	private void fillDescriptionList(ListView descriptionList) {
-		List<String> categories = getStoredDescriptions();
-		if(descriptionList != null) {
-			descriptionList.setAdapter(new ArrayAdapter<String>(getSherlockActivity(), android.R.layout.simple_selectable_list_item, categories));
-		}
+	private void queryAllDescriptions() {
+		this.context.getDatabaseManager().getAllDescriptions(this);
 	}
 
 	private List<String> getStoredDescriptions() {
@@ -114,5 +116,12 @@ public class FragmentChooseDescription extends SherlockFragment {
 			return Arrays.asList(split);
 		}
 		return new LinkedList<String>();
+	}
+
+	public void queryFinished(List<Description> resultSet) {
+		this.descriptions = new ArrayList<Description>(resultSet);
+		if(this.descriptionList != null) {
+			this.descriptionList.setAdapter(new ArrayAdapter<Description>(getSherlockActivity(), android.R.layout.simple_selectable_list_item, this.descriptions));
+		}
 	}
 }

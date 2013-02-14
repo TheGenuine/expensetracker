@@ -24,8 +24,6 @@ public class AppContext extends Application {
 	public static final String PREF_USER_CATEGORIES = "categories";
 
 	private SqliteStorageManager databaseManager;
-	private ArrayList<Category> categories;
-	private List<String> descriptions;
 
 	private ExpenseEntry entryToEdit;
 	
@@ -34,18 +32,14 @@ public class AppContext extends Application {
 		super.onCreate();
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 		this.databaseManager = new SqliteStorageManager(this);
-		this.categories = this.databaseManager.getAllCategories();
-		this.descriptions = this.databaseManager.getAllDescriptions();
 		
 		readSettings();
 	}
-	
 	
 	private void readSettings() {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		
 	}
-
 
 	public SqliteStorageManager getDatabaseManager() {
 		return this.databaseManager;
@@ -54,16 +48,6 @@ public class AppContext extends Application {
 	public void setDatabaseManager(SqliteStorageManager databaseManager) {
 		this.databaseManager = databaseManager;
 	}
-
-
-	public ArrayList<Category> getAllCategories() {
-		return this.categories;
-	}
-	
-	public List<String> getAllDescriptions() {
-		return this.descriptions;
-	}
-
 
 	public ExpenseEntry getEntryToEdit() {
 		return this.entryToEdit;

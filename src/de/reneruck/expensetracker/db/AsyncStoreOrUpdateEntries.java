@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import de.reneruck.expensetracker.model.Category;
+import de.reneruck.expensetracker.model.Description;
 import de.reneruck.expensetracker.model.ExpenseEntry;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -40,6 +41,7 @@ public class AsyncStoreOrUpdateEntries extends AsyncTask<QueryInstructions, Void
 				
 				if(entry != null) {
 					checkCategory(entry);
+					checkDescription(entry);
 					writeToDatabase(entry);
 				} else {
 					Log.e(TAG, "Entry was null, cannot procede");
@@ -48,6 +50,21 @@ public class AsyncStoreOrUpdateEntries extends AsyncTask<QueryInstructions, Void
 			
 		}
 		return null;
+	}
+
+	/**
+	 * Check if {@link Description} of given {@link ExpenseEntry} is already
+	 * present in the database. If not add it to the database and set the
+	 * generated id in the {@link ExpenseEntry}
+	 * 
+	 * @param entry
+	 *            the {@link ExpenseEntry} to work with
+	 */
+	private void checkDescription(ExpenseEntry entry) {
+		if(entry.getDescription().getId() == -1) {
+			long descriptionId = storeNewDescription(entry.getDescription());
+			entry.getDescription().setId(descriptionId);
+		}
 	}
 
 	/**
@@ -65,6 +82,16 @@ public class AsyncStoreOrUpdateEntries extends AsyncTask<QueryInstructions, Void
 		}
 	}
 
+	private long storeNewDescription(Description description) {
+		SQLiteDatabase writableDatabase = this.dbHelper.getWritableDatabase();
+		ContentValues values = new ContentValues(2);
+		values.put(DbConfigs.FIELD_DESCRIPTION_VALUE, description.getValue());
+		values.put(DbConfigs.FIELD_CATEGORY_COUNT, 1);
+		long insert = writableDatabase.insert(DbConfigs.TABLE_DESCRIPTION, null, values);
+		writableDatabase.close();
+		return insert;
+	}
+	
 	private long storeNewCategory(Category category) {
 		SQLiteDatabase writableDatabase = this.dbHelper.getWritableDatabase();
 		ContentValues values = new ContentValues(2);
@@ -88,7 +115,7 @@ public class AsyncStoreOrUpdateEntries extends AsyncTask<QueryInstructions, Void
 		ContentValues values = new ContentValues(5);
 		values.put(DbConfigs.FIELD_EXPENSES_ID, entry.getId());
 		values.put(DbConfigs.FIELD_DATE, getSqlDateString(entry.getDate()));
-		values.put(DbConfigs.FIELD_DESCRIPTION, entry.getDescription());
+		values.put(DbConfigs.FIELD_DESCRIPTION, entry.getDescription().getId());
 		values.put(DbConfigs.FIELD_VALUE, entry.getValue());
 		values.put(DbConfigs.FIELD_CATEGORY, entry.getCategory().getId());
 

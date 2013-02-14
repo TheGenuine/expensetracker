@@ -18,7 +18,7 @@ import de.reneruck.expensetracker.model.Ordering;
 public class SqliteStorageManager {
 
 	private DatabaseHelper dbHelper;
-
+	
 	public SqliteStorageManager(Context context) {
 		this.dbHelper = new DatabaseHelper(context, DbConfigs.DATABASE_NAME, null, DbConfigs.DATABASE_VERSION);
 	}
@@ -67,8 +67,9 @@ public class SqliteStorageManager {
 	 * 
 	 * @return {@link List} of all Descriptions
 	 */
-	public List<String> getAllDescriptions() {
-		return new LinkedList<String>();
+	public void getAllDescriptions(DescriptionQueryCallback callback) {
+		AsyncRetriever asyncRetriever = new AsyncRetriever(this.dbHelper, callback);
+		asyncRetriever.execute();
 	}
 	
 	/**
@@ -78,9 +79,9 @@ public class SqliteStorageManager {
 	 * @return ordered {@link ArrayList} of {@link Category}'s by their count
 	 *         field.
 	 */
-	public ArrayList<Category> getAllCategories() {
-		return new ArrayList<Category>();
-		
+	public void getAllCategories(CategoryQueryCallback callback) {
+		AsyncRetriever asyncRetriever = new AsyncRetriever(this.dbHelper, callback);
+		asyncRetriever.execute();
 	}
 	
 	/**
@@ -93,7 +94,7 @@ public class SqliteStorageManager {
 	 * 
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
-	public void getAllExpensEntries(Ordering ordering, DatabaseQueryCallback callback){
+	public void getAllExpensEntries(Ordering ordering, ExpenseQueryCallback callback){
 		getAllExpensEntriesForRange(null, null, ordering, callback);
 	}
 	
@@ -107,7 +108,7 @@ public class SqliteStorageManager {
 	 *            ascending
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
-	public void getAllExpensEntriesForDay(Date day, Ordering ordering, DatabaseQueryCallback callback){
+	public void getAllExpensEntriesForDay(Date day, Ordering ordering, ExpenseQueryCallback callback){
 		getAllExpensEntriesForRange(day, null, ordering, callback);
 	}
 	
@@ -126,7 +127,7 @@ public class SqliteStorageManager {
 	 *            ascending
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
-	public void getAllExpensEntriesForRange(Date startDay, Date endDay, Ordering ordering, DatabaseQueryCallback callback){
+	public void getAllExpensEntriesForRange(Date startDay, Date endDay, Ordering ordering, ExpenseQueryCallback callback){
 		QueryInstructions instructionSet = new QueryInstructions(-1, null, startDay, endDay, ordering, null);
 		
 		AsyncRetrieveEntries retriveTask = new AsyncRetrieveEntries(this.dbHelper, callback);
@@ -144,7 +145,7 @@ public class SqliteStorageManager {
 	 *            ascending
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
-	public void getAllExpensEntriesForCategory(Category category, Ordering ordering, DatabaseQueryCallback callback){
+	public void getAllExpensEntriesForCategory(Category category, Ordering ordering, ExpenseQueryCallback callback){
 		getAllExpensEntriesForCategory(null, null, category, ordering, callback);
 	}
 	
@@ -162,7 +163,7 @@ public class SqliteStorageManager {
 	 *            ascending
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
-	public void getAllExpensEntriesForCategory(Date day, Category category, Ordering ordering, DatabaseQueryCallback callback){
+	public void getAllExpensEntriesForCategory(Date day, Category category, Ordering ordering, ExpenseQueryCallback callback){
 		getAllExpensEntriesForCategory(day, null, category, ordering, callback);
 	}
 	
@@ -182,7 +183,7 @@ public class SqliteStorageManager {
 	 *            ascending
 	 * @return a list of {@link ExpenseEntry} ordered in the given ordering
 	 */
-	public void getAllExpensEntriesForCategory(Date startDay, Date endDay, Category category, Ordering ordering, DatabaseQueryCallback callback){
+	public void getAllExpensEntriesForCategory(Date startDay, Date endDay, Category category, Ordering ordering, ExpenseQueryCallback callback){
 		QueryInstructions instructionSet = new QueryInstructions(-1, null, startDay, endDay, ordering, category);
 		
 		AsyncRetrieveEntries retriveTask = new AsyncRetrieveEntries(this.dbHelper, callback);
