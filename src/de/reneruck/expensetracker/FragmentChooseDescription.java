@@ -8,12 +8,19 @@ import java.util.List;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
+import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -56,24 +63,33 @@ public class FragmentChooseDescription extends SherlockFragment implements Descr
 
 		this.layout = inflater.inflate(R.layout.new_entry_choose_description, container, false);
 		this.descriptionList = (ListView) this.layout.findViewById(R.id.predefined_description);
-		this.descriptionList.setOnItemSelectedListener(this.onEntrySelectListener);
+		this.descriptionList.setOnItemClickListener(this.itemclickListener);
 		((ImageView) this.layout.findViewById(R.id.button_new_description)).setOnClickListener(this.onAddNewDescriptionListener);
 		queryAllDescriptions();
 		return this.layout;
 	}
 	
-	private OnItemSelectedListener onEntrySelectListener = new OnItemSelectedListener() {
+	private OnItemClickListener itemclickListener = new OnItemClickListener() {
 
-		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			// TODO Auto-generated method stub
-			
+		public void onItemClick(AdapterView<?> va, View view, int pos, long id) {
+			updateCheckVisualization();
+			currentEntry.setDescription(descriptions.get(pos));
+			view.setBackgroundResource(R.drawable.entry_checked);
 		}
 
-		public void onNothingSelected(AdapterView<?> arg0) {
-			// TODO Auto-generated method stub
-			
-		}
 	};
+
+	private void updateCheckVisualization() {
+		if(this.currentEntry.getCategory() != null && this.currentEntry.getCategory().getId() > -1) {
+			View childAt = this.descriptionList.getSelectedView(); //.getChildAt((int) this.currentEntry.getCategory().getId() - 1);
+			if(childAt != null) {
+				childAt.setBackgroundResource(0);
+			}
+		} else {
+			View input = this.layout.findViewById(R.id.new_description_input);
+			input.setBackgroundResource(0);
+		}
+	}
 	
 	private OnClickListener onAddNewDescriptionListener = new OnClickListener() {
 		
@@ -90,10 +106,13 @@ public class FragmentChooseDescription extends SherlockFragment implements Descr
 				
 				if(newDescriptionText.length() > 1) {
 					this.currentEntry.setDescription(new Description(-1, newDescriptionText, 1));
+					
 					InputMethodManager imm = (InputMethodManager) this.context.getSystemService(Context.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
 					Toast.makeText(this.context, getString(R.string.new_description_saved_message), Toast.LENGTH_SHORT).show();
-					// TODO color text input
+					
+					//color text input to indicate acceptance
+					input.setBackgroundResource(R.drawable.field_checked);
 				} else {
 					Toast.makeText(this.context, getString(R.string.new_description_empty_message), Toast.LENGTH_SHORT).show();
 				}

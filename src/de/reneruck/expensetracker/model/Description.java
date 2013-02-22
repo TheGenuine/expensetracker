@@ -7,7 +7,7 @@ package de.reneruck.expensetracker.model;
  */
 public class Description {
 	
-	private long id;
+	private long id = -1;
 	private String value;
 	private int count;
 	

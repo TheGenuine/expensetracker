@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -72,10 +73,25 @@ public class FragmentChooseCategory extends SherlockFragment implements Category
 	private OnItemClickListener itemclickListener = new OnItemClickListener() {
 
 		public void onItemClick(AdapterView<?> va, View view, int pos, long id) {
+			updateCheckVisualization();
 			currentEntry.setCategory(categories.get(pos));
+			view.setBackgroundResource(R.drawable.entry_checked);
 		}
+
 	};
 
+	private void updateCheckVisualization() {
+		if(this.currentEntry.getCategory() != null && this.currentEntry.getCategory().getId() > -1) {
+			View childAt = this.categoryList.getSelectedView(); //.getChildAt((int) this.currentEntry.getCategory().getId() - 1);
+			if(childAt != null) {
+				childAt.setBackgroundResource(0);
+			}
+		} else {
+			View input = this.layout.findViewById(R.id.new_category_input);
+			input.setBackgroundResource(0);
+		}
+	}
+	
 	private OnClickListener onAddNewCategoryListener = new OnClickListener() {
 		
 		public void onClick(View v) {
@@ -94,7 +110,9 @@ public class FragmentChooseCategory extends SherlockFragment implements Category
 					InputMethodManager imm = (InputMethodManager) this.context.getSystemService(Context.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
 					Toast.makeText(this.context, R.string.new_category_saved_message, Toast.LENGTH_SHORT).show();
-					// TODO color text input
+					updateCheckVisualization();
+					input.setBackgroundResource(R.drawable.field_checked);
+					
 				} else {
 					Toast.makeText(this.context, R.string.new_category_empty_message, Toast.LENGTH_SHORT).show();
 				}
