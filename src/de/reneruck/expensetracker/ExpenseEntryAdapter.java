@@ -364,7 +364,8 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
     private View createViewFromResource(int position, View convertView, ViewGroup parent,
             int resource) {
         View view;
-        TextView text;
+        TextView description;
+        TextView category;
         TextView value;
 
         if (convertView == null | convertView instanceof LinearLayout) {
@@ -375,7 +376,8 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
 
         try {
         	//  Otherwise, find the TextView field within the layout
-            text = (TextView) view.findViewById(R.id.expense_entry_description);
+            description = (TextView) view.findViewById(R.id.expense_entry_description);
+            category = (TextView) view.findViewById(R.id.expense_entry_category);
             value = (TextView) view.findViewById(R.id.expense_entry_value);
         } catch (ClassCastException e) {
             Log.e("ArrayAdapter", "You must supply a resource ID for a TextView");
@@ -397,7 +399,8 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
     		// append normal entry
     		view = appendEntry((ViewGroup) view, item);
         } else {
-    		text.setText(item.getDescription().getValue());
+    		description.setText(item.getDescription().getValue());
+    		category.setText(item.getCategory().getValue());
         	value.setText(item.getValue() + " €");        	
         }
         return view;
