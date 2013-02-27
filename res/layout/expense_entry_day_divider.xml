@@ -20,6 +20,6 @@
         android:layout_height="2px"
         android:layout_alignBottom="@+id/expense_entry_divider_date"
         android:layout_alignParentLeft="true"
-        android:background="@android:color/holo_blue_dark" />
+        android:background="#4169E1" />
 
 </RelativeLayout>
