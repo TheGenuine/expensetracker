@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
@@ -89,6 +91,8 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
     private ArrayFilter mFilter;
 
     private LayoutInflater mInflater;
+
+	private Calendar currentDate;
 
     /**
      * Constructor.
@@ -407,18 +411,43 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
     }
 
     private View appendEntry(ViewGroup view, ExpenseEntry item) {
-    	View inflated = this.mInflater.inflate(R.layout.expense_entry, view);
-    	((ViewGroup) view).addView(createEntry(inflated, item));
-    	return view;
+    	LinearLayout frame = new LinearLayout(mContext);
+    	frame.setOrientation(LinearLayout.VERTICAL);
+
+    	frame.addView(view);
+    	View inflated = this.mInflater.inflate(R.layout.expense_entry, view, false);
+    	frame.addView(createEntry(inflated, item));
+    	return frame;
 	}
 
 	private View createEntry(View view, ExpenseEntry item) {
 		((TextView) view.findViewById(R.id.expense_entry_description)).setText(item.getDescription().getValue());
-		((TextView) view.findViewById(R.id.expense_entry_value)).setText("-" + item.getValue() + "€");
+		((TextView) view.findViewById(R.id.expense_entry_value)).setText(item.getValue() + "€");
+		((TextView) view.findViewById(R.id.expense_entry_category)).setText(item.getCategory().getValue());
 		return view;
 	}
 
 	private boolean isNewDay(ExpenseEntry item) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(item.getDate());
+		int itemDay = calendar.get(Calendar.DAY_OF_MONTH);
+		int itemMonth = calendar.get(Calendar.MONTH);
+		if(this.currentDate == null) {
+			this.currentDate = calendar;
+			return true;
+		} else {
+			if(this.currentDate.get(Calendar.MONTH) < itemMonth) {
+				this.currentDate = calendar;
+				return true;
+			} else {
+				if(this.currentDate.get(Calendar.DAY_OF_MONTH) < itemDay) {
+					this.currentDate = calendar;
+					return true;
+				}
+			}
+		}
+		
+		this.currentDate = calendar;
 		return false;
 	}
 
