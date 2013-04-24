@@ -1,13 +1,9 @@
 package de.reneruck.expensetracker;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import de.reneruck.expensetracker.db.SqliteStorageManager;
-import de.reneruck.expensetracker.model.Category;
 import de.reneruck.expensetracker.model.ExpenseEntry;
 
 /**
@@ -30,7 +26,6 @@ public class AppContext extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 		this.databaseManager = new SqliteStorageManager(this);
 		
 		readSettings();
