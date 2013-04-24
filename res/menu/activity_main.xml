@@ -9,4 +9,8 @@
         android:icon="@drawable/content_new_event"
         android:showAsAction="ifRoom" />
     
+    <item android:id="@+id/menu_export"
+        android:title="@string/pref_export_db"
+        android:showAsAction="ifRoom" />
+    
 </menu>

@@ -27,4 +27,8 @@
     
     <string name="new_description_empty_message">Enter a new description before adding it</string>
     <string name="new_description_saved_message">Desciption saved</string>
+    
+    <string name="pref_exportpath_title">Export Path</string>
+    <string name="pref_exportpath_descr">The place you want to export your database entries to</string>
+    <string name="pref_export_db">Export</string>
 </resources>
