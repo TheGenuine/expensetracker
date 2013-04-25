@@ -18,7 +18,7 @@ public class DatabaseExportContainer {
 		this.entries = entries;
 		if(this.entries.size() >= 1) {
 			this.firstID = this.entries.get(0).getId();
-			this.lastID = this.entries.get(this.entries.size()).getId();
+			this.lastID = this.entries.get(this.entries.size() - 1).getId();
 		}
 	}
 

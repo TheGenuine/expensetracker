@@ -3,14 +3,14 @@ package de.reneruck.expensetracker.db;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import de.reneruck.expensetracker.model.Category;
-import de.reneruck.expensetracker.model.Description;
-import de.reneruck.expensetracker.model.ExpenseEntry;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
+import de.reneruck.expensetracker.model.Category;
+import de.reneruck.expensetracker.model.Description;
+import de.reneruck.expensetracker.model.ExpenseEntry;
 
 /**
  * 

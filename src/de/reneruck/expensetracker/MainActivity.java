@@ -68,7 +68,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	ExpenseQueryCallback callback = new ExpenseQueryCallback() {
 
 		public void queryFinished(List<ExpenseEntry> resultSet) {
-			ExportAsync async = new ExportAsync(getApplicationContext(), resultSet, Environment.getExternalStorageDirectory().getAbsolutePath());
+			ExportAsync async = new ExportAsync(getApplicationContext(), resultSet, "/sdcard");
 			async.execute();
 		}
 		

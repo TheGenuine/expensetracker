@@ -11,22 +11,18 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import de.reneruck.expensetracker.model.ExpenseEntry;
-
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import de.reneruck.expensetracker.model.ExpenseEntry;
 
 /**
  * A concrete BaseAdapter that is backed by an array of arbitrary

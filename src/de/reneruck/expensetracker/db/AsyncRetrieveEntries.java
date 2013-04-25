@@ -7,14 +7,13 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.reneruck.expensetracker.model.Category;
-import de.reneruck.expensetracker.model.Description;
-import de.reneruck.expensetracker.model.ExpenseEntry;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
+import de.reneruck.expensetracker.model.Category;
+import de.reneruck.expensetracker.model.Description;
+import de.reneruck.expensetracker.model.ExpenseEntry;
 
 /**
  * 

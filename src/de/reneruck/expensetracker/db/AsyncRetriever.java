@@ -3,12 +3,11 @@ package de.reneruck.expensetracker.db;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.reneruck.expensetracker.model.Category;
-import de.reneruck.expensetracker.model.Description;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import de.reneruck.expensetracker.model.Category;
+import de.reneruck.expensetracker.model.Description;
 
 /**
  * {@link AsyncTask} to get various stuff out of the database.
