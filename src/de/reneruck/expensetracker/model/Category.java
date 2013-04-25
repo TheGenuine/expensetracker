@@ -47,6 +47,6 @@ public class Category {
 	
 	@Override
 	public String toString() {
-		return "Category={id=" + this.id + ", value=" + this.value + ", count=" + this.count + "}";
+		return this.value;
 	}
 }

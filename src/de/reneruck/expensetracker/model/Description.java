@@ -47,6 +47,6 @@ public class Description {
 	
 	@Override
 	public String toString() {
-		return "Description={id=" + this.id + ", value=" + this.value + ", count=" + this.count + "}";
+		return this.value;
 	}
 }
