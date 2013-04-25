@@ -1,6 +1,9 @@
 package de.reneruck.expensetracker;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -92,6 +95,7 @@ public class NewEntryActivtiy extends SherlockFragmentActivity {
         	//TODO: make a check for empty inputs
         	collectData();
         	storeEntry();
+        	syncToServer();
         	finish();
         	break;
         case R.id.menu_settings:
@@ -102,7 +106,34 @@ public class NewEntryActivtiy extends SherlockFragmentActivity {
 		return true;
     }
     
-    private void storeEntry() {
+	private void syncToServer() {
+		if (haveNetworkConnection()) {
+			new SyncEntryAsync(this.currentEntry).execute();
+		}
+	}
+
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI")){
+            	if (ni.isConnected()){
+            		haveConnectedWifi = true;
+            	}
+            }
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE")){
+                if (ni.isConnected()){
+                    haveConnectedMobile = true;
+                }
+            }
+        }
+        return haveConnectedWifi || haveConnectedMobile;
+    }
+    
+	private void storeEntry() {
     	Toast.makeText(getApplicationContext(), "Storing Entry", Toast.LENGTH_SHORT).show();
     	this.context.getDatabaseManager().storeOrUpdateExpenseEntry(this.currentEntry);
 	}

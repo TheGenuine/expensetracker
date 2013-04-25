@@ -1,5 +1,6 @@
 package de.reneruck.expensetracker.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**

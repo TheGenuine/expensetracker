@@ -7,10 +7,9 @@
     <item android:id="@+id/menu_add_entry"
         android:title="@string/menu_add_entry"
         android:icon="@drawable/content_new_event"
-        android:showAsAction="ifRoom" />
-    
+        android:showAsAction="always" />
+
     <item android:id="@+id/menu_export"
         android:title="@string/pref_export_db"
         android:showAsAction="ifRoom" />
-    
 </menu>
