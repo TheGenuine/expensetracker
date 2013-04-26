@@ -4,6 +4,15 @@
 
     <string name="menu_settings">Settings</string>
     <string name="menu_add_entry">Add Entry</string>
+    <string name="menu_overview_day">Overview Day</string>
+    <string name="menu_overview_month">Overview Month</string>
+    <string name="menu_overview_all">Overview All</string>
+    <string name="menu_statistics">Statistics</string>
+    
+    <string name="day_pager_week_plus">Week +</string>
+    <string name="day_pager_week_minus">Week -</string>
+    <string name="day_pager_today">Today</string>
+    <string name="day_pager_no_items">No items</string>
     
     <string name="activity_new_entry_title">New Entry</string>
     <string name="new_entry_value">Value</string>

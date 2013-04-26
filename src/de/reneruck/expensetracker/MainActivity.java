@@ -53,6 +53,14 @@ public class MainActivity extends SherlockFragmentActivity {
 			Intent newEntryIntent = new Intent(this, NewEntryActivtiy.class);
 			startActivity(newEntryIntent);
 			break;
+		case R.id.menu_overview_day:
+			break;
+		case R.id.menu_overview_month:
+			break;
+		case R.id.menu_overview_all:
+			break;
+		case R.id.menu_statistics:
+			break;
 		case R.id.menu_settings:
 			Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
 			startActivity(settingsIntent);

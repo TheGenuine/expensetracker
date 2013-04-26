@@ -8,7 +8,27 @@
         android:title="@string/menu_add_entry"
         android:icon="@drawable/content_new_event"
         android:showAsAction="always" />
-
+    
+    <item android:id="@+id/menu_overview_day"
+        android:title="@string/menu_overview_day"
+        android:icon="@drawable/content_new_event"
+        android:showAsAction="ifRoom" />
+    
+    <item android:id="@+id/menu_overview_month"
+        android:title="@string/menu_overview_month"
+        android:icon="@drawable/content_new_event"
+        android:showAsAction="ifRoom" />
+    
+    <item android:id="@+id/menu_overview_all"
+        android:title="@string/menu_overview_all"
+        android:icon="@drawable/content_new_event"
+        android:showAsAction="ifRoom" />
+    
+    <item android:id="@+id/menu_statistics"
+        android:title="@string/menu_statistics"
+        android:icon="@drawable/content_new_event"
+        android:showAsAction="ifRoom" />
+    
     <item android:id="@+id/menu_export"
         android:title="@string/pref_export_db"
         android:showAsAction="ifRoom" />
