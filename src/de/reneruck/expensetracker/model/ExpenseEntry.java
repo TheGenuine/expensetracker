@@ -1,5 +1,6 @@
 package de.reneruck.expensetracker.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
@@ -11,7 +12,7 @@ import java.util.Date;
  * @author Rene
  * 
  */
-public class ExpenseEntry {
+public class ExpenseEntry implements Serializable{
 
 	private long id;
 	private Date date;

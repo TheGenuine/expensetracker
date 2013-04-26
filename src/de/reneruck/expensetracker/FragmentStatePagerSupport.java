@@ -1,157 +1,105 @@
 package de.reneruck.expensetracker;
 
+import java.sql.Date;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.Map;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
+import de.reneruck.expensetracker.db.ExpenseQueryCallback;
+import de.reneruck.expensetracker.model.ExpenseEntry;
 
 /**
  * 
  * @author Rene
  *
  */
-public class FragmentStatePagerSupport extends FragmentActivity {
+public class FragmentStatePagerSupport extends FragmentActivity implements ExpenseQueryCallback  {
 
-    FragmentAdapter adapter;
-    ViewPager viewPager;
-
+    protected static final int TODAY = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+	private FragmentAdapter adapter;
+    private ViewPager viewPager;
+	private AppContext appContext;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_pager);
+        
+        this.appContext = (AppContext) getApplicationContext();
+        
+        Calendar instance = Calendar.getInstance();
+        instance.set(Calendar.DAY_OF_MONTH, 1);
+        
+        Calendar instance2 = Calendar.getInstance();
+        instance.set(Calendar.DAY_OF_MONTH, instance.getActualMaximum(Calendar.DAY_OF_MONTH));
+        
+        Date endDay = new Date(instance.getTimeInMillis());
+		Date startDay = new Date(instance2.getTimeInMillis());
+		
+		this.appContext.getDatabaseManager().getAllExpensEntriesForRange(startDay, endDay, null, this);
+		
+    }
 
-        Calendar calendar = Calendar.getInstance();
-        final int NUM_ITEMS = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-        
-        List<Fragment> list = new LinkedList<Fragment>();
-       
-        
-        this.adapter = new FragmentAdapter(getSupportFragmentManager(), list);
+	public void queryFinished(List<ExpenseEntry> resultSet) {
+		
+		Calendar calendar = Calendar.getInstance();
+		final int numItems = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+		
+		this.appContext.setCurrentMonthEntries(summarizeDays(resultSet));
+		
+		this.adapter = new FragmentAdapter(getSupportFragmentManager(), numItems);
 
         this.viewPager = (ViewPager) findViewById(R.id.pager);
         this.viewPager.setAdapter(this.adapter);
 
+        this.viewPager.setCurrentItem(TODAY);
+        
         // Watch for button clicks.
         TextView button = (TextView) findViewById(R.id.goto_week_minus);
-        button.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                viewPager.setCurrentItem(NUM_ITEMS - 8);
-            }
-        });
+		button.setOnClickListener(this.weekMinusButtonListener);
         button = (TextView) findViewById(R.id.goto_week_plus);
-        button.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                viewPager.setCurrentItem(NUM_ITEMS + 8);
-            }
-        });
+		button.setOnClickListener(this.weekPlusButtonListener);
         button = (TextView) findViewById(R.id.goto_today);
-        button.setOnClickListener(new OnClickListener() {
-        	public void onClick(View v) {
-        		viewPager.setCurrentItem(0);
-        	}
-        });
-    }
+		button.setOnClickListener(this.todayButtonListener);
+	}
 
-    /**
-     * 
-     * @author Rene
-     *
-     */
-    public static class FragmentAdapter extends FragmentStatePagerAdapter {
-        private List<Fragment> list;
-
-		public FragmentAdapter(FragmentManager fm, List<Fragment> list) {
-        	super(fm);
-        	this.list = list;
-        }
-
-        @Override
-        public int getCount() {
-            return this.list.size();
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return PageFragment.newInstance(position);
-        }
-    }
-
-    /**
-     * 
-     * @author Rene
-     *
-     */
-    public static class PageFragment extends ListFragment {
-        int mNum;
-
-        /**
-         * Create a new instance of CountingFragment, providing "num"
-         * as an argument.
-         */
-        static PageFragment newInstance(int num) {
-            PageFragment f = new PageFragment();
-
-            // Supply num input as an argument.
-            Bundle args = new Bundle();
-            args.putInt("num", num);
-            f.setArguments(args);
-
-            return f;
-        }
-
-        /**
-         * When creating, retrieve this instance's number from its arguments.
-         */
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            mNum = getArguments() != null ? getArguments().getInt("num") : 1;
-        }
-
-        /**
-         * The Fragment's UI is just a simple text view showing its
-         * instance number.
-         */
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View v = inflater.inflate(R.layout.fragment_pager_list, container, false);
-            View tv = v.findViewById(R.id.text);
-            ((TextView) tv).setText("Fragment #" + mNum);
-            return v;
-        }
-
-        @Override
-        public void onActivityCreated(Bundle savedInstanceState) {
-            super.onActivityCreated(savedInstanceState);
-            setListAdapter(new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_list_item_1, Cheeses.sCheesesnStrings));
-        }
-
-        @Override
-        public void onListItemClick(ListView l, View v, int position, long id) {
-            Log.i("FragmentList", "Item clicked: " + id);
-        }
-    }
-    
-    static class Cheeses {
-    	private static String[] sCheesesnStrings = {"Gouda", "Emmentaler", "Morzarella", "Brie"};
-    }
+	OnClickListener weekMinusButtonListener = new OnClickListener() {
+		public void onClick(View v) {
+			viewPager.setCurrentItem(viewPager.getCurrentItem() - 8);
+		}
+	};
+	OnClickListener weekPlusButtonListener = new OnClickListener() {
+		public void onClick(View v) {
+			viewPager.setCurrentItem(viewPager.getCurrentItem() + 8);
+		}
+	};
+	OnClickListener todayButtonListener = new OnClickListener() {
+		public void onClick(View v) {
+			viewPager.setCurrentItem(TODAY);
+		}
+	};
+	
+	private SparseArray<List<ExpenseEntry>> summarizeDays(List<ExpenseEntry> resultSet) {
+		SparseArray<List<ExpenseEntry>> result = new SparseArray<List<ExpenseEntry>>();
+		Calendar cal = Calendar.getInstance();
+		for (ExpenseEntry expenseEntry : resultSet) {
+			cal.setTime(expenseEntry.getDate());
+			int day = cal.get(Calendar.DAY_OF_MONTH);
+			List<ExpenseEntry> list = result.get(day);
+			if(list == null) {
+				list = new LinkedList<ExpenseEntry>();
+			}
+			list.add(expenseEntry);
+		}
+		return result;
+	}
 }

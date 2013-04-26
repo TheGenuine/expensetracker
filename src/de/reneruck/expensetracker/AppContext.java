@@ -1,8 +1,11 @@
 package de.reneruck.expensetracker;
 
+import java.util.List;
+
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.SparseArray;
 import de.reneruck.expensetracker.db.SqliteStorageManager;
 import de.reneruck.expensetracker.model.ExpenseEntry;
 
@@ -22,6 +25,8 @@ public class AppContext extends Application {
 	private SqliteStorageManager databaseManager;
 
 	private ExpenseEntry entryToEdit;
+
+	private SparseArray<List<ExpenseEntry>> currentMonthEntries;
 	
 	@Override
 	public void onCreate() {
@@ -51,5 +56,13 @@ public class AppContext extends Application {
 
 	public void setEntryToEdit(ExpenseEntry entryToEdit) {
 		this.entryToEdit = entryToEdit;
+	}
+
+	public SparseArray<List<ExpenseEntry>> getCurrentMonthEntries() {
+		return this.currentMonthEntries;
+	}
+
+	public void setCurrentMonthEntries(SparseArray<List<ExpenseEntry>> currentMonthEntries) {
+		this.currentMonthEntries = currentMonthEntries;
 	}
 }
