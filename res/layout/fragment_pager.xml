@@ -16,23 +16,24 @@
             android:measureWithLargestChild="true"
             android:layout_width="match_parent" 
             android:layout_height="wrap_content"
-            android:layout_weight="0.05">
+            android:layout_weight="0">
 
         <TextView android:id="@+id/goto_today"
             android:layout_width="wrap_content" 
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dip"
             android:layout_marginRight="25dip"
+            android:padding="5dip"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
             android:text="@string/day_pager_today">
         </TextView>
             
         <TextView android:id="@+id/goto_week_plus"
             android:layout_width="wrap_content" 
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dip"
+            android:layout_marginBottom="5dip"
+            android:padding="10dip"
            	android:layout_toLeftOf="@id/goto_today"
            	android:layout_centerVertical="true"
             android:text="@string/day_pager_week_plus">
@@ -44,6 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/goto_today"
+            android:padding="10dip"
             android:text="@string/day_pager_week_minus">
         </TextView>
     </RelativeLayout>

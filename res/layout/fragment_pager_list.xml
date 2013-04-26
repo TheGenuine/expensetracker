@@ -35,5 +35,20 @@
             android:text="@string/day_pager_no_items"/>
 
     </FrameLayout>
+    <RelativeLayout 
+         	android:gravity="center_vertical|right" 
+            android:measureWithLargestChild="true"
+            android:layout_width="match_parent" 
+            android:layout_height="wrap_content"
+            android:layout_weight="0">
+    
+	    <TextView
+	        android:id="@+id/sum"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	      	android:gravity="center_vertical|right"
+	      	android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" 
+	        android:text="Σ 0,00€" />
 
+    </RelativeLayout>
 </LinearLayout>

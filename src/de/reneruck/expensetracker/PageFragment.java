@@ -24,6 +24,8 @@ import de.reneruck.expensetracker.model.ExpenseEntry;
 public class PageFragment extends ListFragment {
 	private Calendar calendar;
 	private AppContext context;
+	private List<ExpenseEntry> entries;
+	private View layout;
 
     /**
      * Create a new instance of CountingFragment, providing "entry"
@@ -59,22 +61,35 @@ public class PageFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_pager_list, container, false);
-        View tv = v.findViewById(R.id.text);
+        this.layout = inflater.inflate(R.layout.fragment_pager_list, container, false);
+        View tv = layout.findViewById(R.id.text);
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         ((TextView) tv).setText(sdf.format(this.calendar.getTime()));
-        return v;
+        
+        return layout;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        List<ExpenseEntry> entries = this.context.getCurrentMonthEntries().get(this.calendar.get(Calendar.DAY_OF_MONTH), new LinkedList<ExpenseEntry>());
-        setListAdapter(new ExpenseEntryAdapter(getActivity(), R.layout.expense_entry, entries));
+        this.entries = this.context.getCurrentMonthEntries().get(this.calendar.get(Calendar.DAY_OF_MONTH), new LinkedList<ExpenseEntry>());
+        setListAdapter(new ExpenseEntryAdapter(getActivity(), R.layout.expense_entry, this.entries));
+
+        // set the sum of all the expenses for today
+        TextView tv = (TextView) this.layout.findViewById(R.id.sum);
+        tv.setText("Σ " + getSum() + "€");
     }
 
-    @Override
+    private double getSum() {
+    	double sum = 0;
+    	for (ExpenseEntry entry : this.entries) {
+			sum += entry.getValue();
+		}
+		return sum;
+	}
+
+	@Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Log.i("FragmentList", "Item clicked: " + id);
     }
