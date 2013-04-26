@@ -40,10 +40,10 @@ public class FragmentStatePagerSupport extends FragmentActivity implements Expen
         instance.set(Calendar.DAY_OF_MONTH, 1);
         
         Calendar instance2 = Calendar.getInstance();
-        instance.set(Calendar.DAY_OF_MONTH, instance.getActualMaximum(Calendar.DAY_OF_MONTH));
+        instance2.set(Calendar.DAY_OF_MONTH, instance.getActualMaximum(Calendar.DAY_OF_MONTH));
         
-        Date endDay = new Date(instance.getTimeInMillis());
-		Date startDay = new Date(instance2.getTimeInMillis());
+		Date startDay = new Date(instance.getTimeInMillis());
+		Date endDay = new Date(instance2.getTimeInMillis());
 		
 		this.appContext.getDatabaseManager().getAllExpensEntriesForRange(startDay, endDay, null, this);
 		
@@ -97,6 +97,7 @@ public class FragmentStatePagerSupport extends FragmentActivity implements Expen
 			List<ExpenseEntry> list = result.get(day);
 			if(list == null) {
 				list = new LinkedList<ExpenseEntry>();
+				result.put(day, list);
 			}
 			list.add(expenseEntry);
 		}
