@@ -59,16 +59,16 @@ public class AsyncRetrieveEntries extends AsyncTask<QueryInstructions, Void, Lis
 
 		if(instructions.getDay1() != null) {
 			if(instructions.getDay2() != null){
-				statement.append(DbConfigs.FIELD_DATE + ">" + instructions.getEntryId() 
-						+ " AND " + DbConfigs.FIELD_DATE + "<" + instructions.getEntryId());
+				statement.append(DbConfigs.FIELD_DATE + " > '" + instructions.getDay1() 
+						+ "' AND " + DbConfigs.FIELD_DATE + " < '" + instructions.getDay2() + "'");
 			} else {
-				statement.append(DbConfigs.FIELD_DATE + ">" + instructions.getDay1()
-				+ " AND " + DbConfigs.FIELD_DATE + "<" + dayPlus24h(instructions.getDay1()));
+				statement.append(DbConfigs.FIELD_DATE + " = '" + instructions.getDay1() + "'");
+//				+ "' AND " + DbConfigs.FIELD_DATE + " < '" + dayPlus24h(instructions.getDay1()));
 			}
 		}
 
 		if(instructions.getCategory() != null) {
-			statement.append(DbConfigs.FIELD_CATEGORY + "=" + instructions.getCategory());
+			statement.append(DbConfigs.FIELD_CATEGORY + " = " + instructions.getCategory());
 		}
 		
 		return statement.toString().length() > 1 ? statement.toString() : null;
