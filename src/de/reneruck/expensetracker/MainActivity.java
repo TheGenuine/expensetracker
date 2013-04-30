@@ -19,7 +19,7 @@ import de.reneruck.expensetracker.model.Ordering;
 import de.reneruck.expensetracker.settings.SettingsActivity;
 
 /**
- * Activity to serve as the entrypoint into the app.
+ * Activity to serve as the entry point into the app.
  * 
  * @author Rene
  *
