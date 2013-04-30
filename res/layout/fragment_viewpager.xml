@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1" >
+    </android.support.v4.view.ViewPager>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:gravity="center"
+        android:measureWithLargestChild="true" >
+
+        <TextView
+            android:id="@+id/goto_today"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="25dip"
+            android:layout_marginRight="25dip"
+            android:padding="5dip"
+            android:text="@string/day_pager_today"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/goto_week_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dip"
+            android:layout_toLeftOf="@id/goto_today"
+            android:padding="10dip"
+            android:text="@string/day_pager_week_plus" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/goto_week_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/goto_today"
+            android:padding="10dip"
+            android:text="@string/day_pager_week_minus" >
+        </TextView>
+    </RelativeLayout>
+</LinearLayout>
