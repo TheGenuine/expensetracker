@@ -14,11 +14,16 @@
 		android:name=".AppContext"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme" 
+        android:backupAgent="android.app.backup.BackupAgentHelper" android:allowBackup="true">
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" 
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity 
             android:name="NewEntryActivtiy" 
@@ -26,46 +31,7 @@
             android:screenOrientation="portrait">
         </activity>
         <activity android:name=".settings.SettingsActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name="FragmentStatePagerSupport">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            </activity>
+        <activity android:name="FragmentStatePagerSupport"></activity>
     </application>
 
 </manifest>
