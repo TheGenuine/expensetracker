@@ -12,11 +12,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
  * @author Rene
  *
  */
-public class FragmentAdapter extends FragmentStatePagerAdapter {
+public class FragmentStatePageAdapter extends FragmentStatePagerAdapter {
 
 	private int numEntries;
 
-	public FragmentAdapter(FragmentManager fm, int numEntries) {
+	public FragmentStatePageAdapter(FragmentManager fm, int numEntries) {
     	super(fm);
     	this.numEntries = numEntries;
     }
