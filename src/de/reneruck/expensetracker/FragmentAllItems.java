@@ -2,6 +2,7 @@ package de.reneruck.expensetracker;
 
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import de.reneruck.expensetracker.model.Ordering;
  * @author Rene
  * 
  */
+@SuppressLint("ValidFragment")
 public class FragmentAllItems extends SherlockFragment implements ExpenseQueryCallback {
 
 	private static final String TAG = "FragmentAllItems";
