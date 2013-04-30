@@ -40,4 +40,5 @@
     <string name="pref_exportpath_title">Export Path</string>
     <string name="pref_exportpath_descr">The place you want to export your database entries to</string>
     <string name="pref_export_db">Export</string>
+    <string name="not_yet_implemented">Not yet implemented</string>
 </resources>
