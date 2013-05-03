@@ -1,11 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/menu_settings"
         android:title="@string/menu_settings"
-        android:icon="@drawable/action_settings"
+        android:icon="@drawable/ic_action_bar_settings"
         android:showAsAction="ifRoom" />
     
     <item android:id="@+id/menu_store_entry"
-        android:icon="@drawable/navigation_accept"
+        android:icon="@drawable/ic_action_bar_accept"
         android:showAsAction="always" />
     
 </menu>
