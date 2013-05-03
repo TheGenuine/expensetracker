@@ -312,7 +312,7 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
         mResource = mDropDownResource = resource;
         mObjects = objects;
         mFieldId = textViewResourceId;
-        enableDayDivider = enableDayDivider;
+        this.enableDayDivider = enableDayDivider;
     }
 
     /**
