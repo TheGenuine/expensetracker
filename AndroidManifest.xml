@@ -31,7 +31,6 @@
             android:screenOrientation="portrait">
         </activity>
         <activity android:name=".settings.SettingsActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name="FragmentStatePagerSupport"></activity>
     </application>
 
 </manifest>
