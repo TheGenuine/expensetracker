@@ -34,7 +34,7 @@ public class FragmentViewPager extends SherlockFragment implements ExpenseQueryC
 	private static final int TODAY = 0;
 	private ViewGroup container;
 	private AppContext context;
-	private FragmentAdapter adapter;
+	private FragmentStatePageAdapter adapter;
 	private ViewPager viewPager;
 	private View pagerLayout;
 
@@ -81,7 +81,7 @@ public class FragmentViewPager extends SherlockFragment implements ExpenseQueryC
 		
 		this.context.setCurrentMonthEntries(summarizeDays(resultSet));
 		
-		this.adapter = new FragmentAdapter(getActivity().getSupportFragmentManager(), numItems);
+		this.adapter = new FragmentStatePageAdapter(getActivity().getSupportFragmentManager(), numItems);
 
         this.viewPager = (ViewPager) this.container.findViewById(R.id.pager);
         this.viewPager.setAdapter(this.adapter);
