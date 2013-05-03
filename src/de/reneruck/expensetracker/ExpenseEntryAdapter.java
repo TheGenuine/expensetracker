@@ -90,6 +90,8 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
 
 	private Calendar currentDate;
 
+	private boolean enableDayDivider;
+
     /**
      * Constructor.
      *
@@ -98,7 +100,7 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
      *                 instantiating views.
      */
     public ExpenseEntryAdapter(Context context, int textViewResourceId) {
-        init(context, textViewResourceId, 0, new ArrayList<ExpenseEntry>());
+        init(context, textViewResourceId, 0, new ArrayList<ExpenseEntry>(), true);
     }
 
     /**
@@ -110,7 +112,7 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
      * @param textViewResourceId The id of the TextView within the layout resource to be populated
      */
     public ExpenseEntryAdapter(Context context, int resource, int textViewResourceId) {
-        init(context, resource, textViewResourceId, new ArrayList<ExpenseEntry>());
+        init(context, resource, textViewResourceId, new ArrayList<ExpenseEntry>(), true);
     }
 
     /**
@@ -122,7 +124,7 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
      * @param objects The objects to represent in the ListView.
      */
     public ExpenseEntryAdapter(Context context, int textViewResourceId, ExpenseEntry[] objects) {
-        init(context, textViewResourceId, 0, Arrays.asList(objects));
+        init(context, textViewResourceId, 0, Arrays.asList(objects), true);
     }
 
     /**
@@ -135,7 +137,7 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
      * @param objects The objects to represent in the ListView.
      */
     public ExpenseEntryAdapter(Context context, int resource, int textViewResourceId, ExpenseEntry[] objects) {
-        init(context, resource, textViewResourceId, Arrays.asList(objects));
+        init(context, resource, textViewResourceId, Arrays.asList(objects), true);
     }
 
     /**
@@ -146,8 +148,8 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
      *                 instantiating views.
      * @param objects The objects to represent in the ListView.
      */
-    public ExpenseEntryAdapter(Context context, int textViewResourceId, List<ExpenseEntry> objects) {
-        init(context, textViewResourceId, 0, objects);
+    public ExpenseEntryAdapter(Context context, int textViewResourceId, List<ExpenseEntry> objects, boolean enableDayDivider) {
+        init(context, textViewResourceId, 0, objects, enableDayDivider);
     }
 
     /**
@@ -160,7 +162,7 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
      * @param objects The objects to represent in the ListView.
      */
     public ExpenseEntryAdapter(Context context, int resource, int textViewResourceId, List<ExpenseEntry> objects) {
-        init(context, resource, textViewResourceId, objects);
+        init(context, resource, textViewResourceId, objects, true);
     }
 
     /**
@@ -304,12 +306,13 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
         mNotifyOnChange = notifyOnChange;
     }
 
-    private void init(Context context, int resource, int textViewResourceId, List<ExpenseEntry> objects) {
+    private void init(Context context, int resource, int textViewResourceId, List<ExpenseEntry> objects, boolean enableDayDivider) {
         mContext = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mResource = mDropDownResource = resource;
         mObjects = objects;
         mFieldId = textViewResourceId;
+        enableDayDivider = enableDayDivider;
     }
 
     /**
@@ -387,7 +390,7 @@ public class ExpenseEntryAdapter extends BaseAdapter implements Filterable {
 
         ExpenseEntry item = getItem(position);
         
-        if (isNewDay(item)) {
+        if (this.enableDayDivider && isNewDay(item)) {
         	
             view = mInflater.inflate(R.layout.expense_entry_day_divider, parent, false);
             

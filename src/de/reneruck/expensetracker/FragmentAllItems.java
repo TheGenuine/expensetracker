@@ -60,7 +60,7 @@ public class FragmentAllItems extends SherlockFragment implements ExpenseQueryCa
 
 		ListView list = new ListView(getActivity());
 		list.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		list.setAdapter(new ExpenseEntryAdapter(getActivity(), R.layout.expense_entry, resultSet));
+		list.setAdapter(new ExpenseEntryAdapter(getActivity(), R.layout.expense_entry, resultSet, true));
 
 		TextView emptyText = new TextView(getActivity());
 		emptyText.setText(getString(R.string.empty_list));

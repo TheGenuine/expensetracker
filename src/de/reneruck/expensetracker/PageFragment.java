@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -63,10 +64,10 @@ public class PageFragment extends ListFragment {
             Bundle savedInstanceState) {
         this.layout = inflater.inflate(R.layout.fragment_pager_list, container, false);
         View tv = layout.findViewById(R.id.text);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("E, dd.MM.yyyy", Locale.getDefault());
         ((TextView) tv).setText(sdf.format(this.calendar.getTime()));
         
-        return layout;
+        return this.layout;
     }
 
     @Override
@@ -74,7 +75,7 @@ public class PageFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
 
         this.entries = this.context.getCurrentMonthEntries().get(this.calendar.get(Calendar.DAY_OF_MONTH), new LinkedList<ExpenseEntry>());
-        setListAdapter(new ExpenseEntryAdapter(getActivity(), R.layout.expense_entry, this.entries));
+        setListAdapter(new ExpenseEntryAdapter(getActivity(), R.layout.expense_entry, this.entries, false));
 
         // set the sum of all the expenses for today
         TextView tv = (TextView) this.layout.findViewById(R.id.sum);
