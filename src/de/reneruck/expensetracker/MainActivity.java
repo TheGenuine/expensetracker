@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -27,6 +28,7 @@ import de.reneruck.expensetracker.settings.SettingsActivity;
 public class MainActivity extends SherlockFragmentActivity {
 
     protected static final int TODAY = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+	private static final String TAG = "MainActivity";
 	private AppContext appContext;
 	private int mode = R.id.menu_overview_day;
     
@@ -41,6 +43,7 @@ public class MainActivity extends SherlockFragmentActivity {
     @Override
     protected void onResume() {
     	super.onResume();
+    	Log.d(TAG, "-- onResume --");
     	setFragmentForCurrentMode();
     }
 
@@ -58,6 +61,9 @@ public class MainActivity extends SherlockFragmentActivity {
 			case R.id.menu_overview_all:
 				transaction.add(R.id.fragment_container, new FragmentAllItems(this.appContext), "FragmentAllItems");
 				break;
+			default:
+				transaction.add(R.id.fragment_container, new FragmentViewPager(this.appContext), "FragmentOverviewDay");
+				break;
 		}
 		transaction.commit();
 	}
@@ -70,7 +76,6 @@ public class MainActivity extends SherlockFragmentActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		this.mode = item.getItemId();
 		switch (item.getItemId()) {
 			case android.R.id.home:
 				break;
@@ -81,6 +86,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			case R.id.menu_overview_day:
 			case R.id.menu_overview_month:
 			case R.id.menu_overview_all:
+				this.mode = item.getItemId();
 				setFragmentForCurrentMode();
 				break;
 			case R.id.menu_statistics:
