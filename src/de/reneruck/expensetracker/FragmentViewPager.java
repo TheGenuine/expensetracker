@@ -31,7 +31,7 @@ import de.reneruck.expensetracker.model.ExpenseEntry;
 public class FragmentViewPager extends SherlockFragment implements ExpenseQueryCallback {
 
     private static final String TAG = "FragmentViewPager";
-	private static final int TODAY = 0;
+	private static final int TODAY = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 	private ViewGroup container;
 	private AppContext context;
 	private FragmentStatePageAdapter adapter;
@@ -99,12 +99,12 @@ public class FragmentViewPager extends SherlockFragment implements ExpenseQueryC
 
 	OnClickListener weekMinusButtonListener = new OnClickListener() {
 		public void onClick(View v) {
-			viewPager.setCurrentItem(viewPager.getCurrentItem() - 8);
+			viewPager.setCurrentItem(viewPager.getCurrentItem() - 7);
 		}
 	};
 	OnClickListener weekPlusButtonListener = new OnClickListener() {
 		public void onClick(View v) {
-			viewPager.setCurrentItem(viewPager.getCurrentItem() + 8);
+			viewPager.setCurrentItem(viewPager.getCurrentItem() + 7);
 		}
 	};
 	OnClickListener todayButtonListener = new OnClickListener() {
