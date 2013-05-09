@@ -28,7 +28,7 @@ public class MainActivity extends FragmentActivity {
     protected static final int TODAY = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 	private static final String TAG = "MainActivity";
 	private AppContext appContext;
-	private int mode = R.id.menu_overview_day;
+	private int mode = 0;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,15 +50,15 @@ public class MainActivity extends FragmentActivity {
 		View container = findViewById(R.id.fragment_container);
 		((ViewGroup) container).removeAllViews();
 		switch (this.mode) {
-			case R.id.menu_overview_day:
-				transaction.add(R.id.fragment_container, new FragmentViewPager(this.appContext), "FragmentOverviewDay");
-				break;
-			case R.id.menu_overview_month:
-				transaction.add(R.id.fragment_container, new FragmentNotImplemented(), "FragmentNotImplemented");
-				break;
-			case R.id.menu_overview_all:
-				transaction.add(R.id.fragment_container, new FragmentAllItems(this.appContext), "FragmentAllItems");
-				break;
+//			case R.id.menu_overview_day:
+//				transaction.add(R.id.fragment_container, new FragmentViewPager(this.appContext), "FragmentOverviewDay");
+//				break;
+//			case R.id.menu_overview_month:
+//				transaction.add(R.id.fragment_container, new FragmentNotImplemented(), "FragmentNotImplemented");
+//				break;
+//			case R.id.menu_overview_all:
+//				transaction.add(R.id.fragment_container, new FragmentAllItems(this.appContext), "FragmentAllItems");
+//				break;
 			default:
 				transaction.add(R.id.fragment_container, new FragmentViewPager(this.appContext), "FragmentOverviewDay");
 				break;
@@ -81,21 +81,21 @@ public class MainActivity extends FragmentActivity {
 				Intent newEntryIntent = new Intent(this, NewEntryActivtiy.class);
 				startActivity(newEntryIntent);
 				break;
-			case R.id.menu_overview_day:
-			case R.id.menu_overview_month:
-			case R.id.menu_overview_all:
-				this.mode = item.getItemId();
-				setFragmentForCurrentMode();
-				break;
+//			case R.id.menu_overview_day:
+//			case R.id.menu_overview_month:
+//			case R.id.menu_overview_all:
+//				this.mode = item.getItemId();
+//				setFragmentForCurrentMode();
+//				break;
 //			case R.id.menu_statistics:
 //				break;
 			case R.id.menu_settings:
 				Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
 				startActivity(settingsIntent);
 				break;
-			case R.id.menu_export:
-				this.appContext.getDatabaseManager().getAllExpensEntries(Ordering.DESC, this.exportCallback);
-				break;
+//			case R.id.menu_export:
+//				this.appContext.getDatabaseManager().getAllExpensEntries(Ordering.DESC, this.exportCallback);
+//				break;
 			}
 		
 		return true;
