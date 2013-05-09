@@ -57,7 +57,7 @@ public class FragmentViewPager extends Fragment implements ExpenseQueryCallback 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	Log.d(TAG, "OnCreateView");
 		View inflated = inflater.inflate(R.layout.busy, container, false);
-		this.pagerLayout = inflater.inflate(R.layout.fragment_viewpager, null, false);
+		this.pagerLayout = inflater.inflate(R.layout.fragment_pager, null, false);
 		((TextView) inflated.findViewById(R.id.busy_text_wait)).setText(R.string.retrieving_items);
 		this.container = container;
 		return inflated;
