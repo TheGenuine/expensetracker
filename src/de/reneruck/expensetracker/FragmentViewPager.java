@@ -13,10 +13,14 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import de.reneruck.expensetracker.R.menu;
 import de.reneruck.expensetracker.db.ExpenseQueryCallback;
 import de.reneruck.expensetracker.model.ExpenseEntry;
 
@@ -46,8 +50,37 @@ public class FragmentViewPager extends Fragment implements ExpenseQueryCallback 
 		Log.d(TAG, "-- onCreate --");
         super.onCreate(savedInstanceState);
         
+        getActivity().getActionBar().setTitle("Daily");
+        
+        
     }
 
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.fragment_daily, menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+			case R.id.menu_goto_today:
+				viewPager.setCurrentItem(TODAY);
+				break;
+			case R.id.menu_goto_week_minus:
+				viewPager.setCurrentItem(viewPager.getCurrentItem() - 7);
+				break;
+			case R.id.menu_goto_week_plus:
+				viewPager.setCurrentItem(viewPager.getCurrentItem() + 7);
+				break;
+	
+			default:
+				break;
+			}
+		return super.onOptionsItemSelected(item);
+	}
+	
 	private void startQuery() {
 		Calendar instance = Calendar.getInstance();
     	instance.set(Calendar.DAY_OF_MONTH, 1);
@@ -99,32 +132,8 @@ public class FragmentViewPager extends Fragment implements ExpenseQueryCallback 
         this.viewPager.setAdapter(this.adapter);
 
         this.viewPager.setCurrentItem(TODAY);
-        
-        // Watch for button clicks.
-        TextView button = (TextView) this.container.findViewById(R.id.goto_week_minus);
-		button.setOnClickListener(this.weekMinusButtonListener);
-        button = (TextView) this.container.findViewById(R.id.goto_week_plus);
-		button.setOnClickListener(this.weekPlusButtonListener);
-        button = (TextView) this.container.findViewById(R.id.goto_today);
-		button.setOnClickListener(this.todayButtonListener);
 	}
 
-	OnClickListener weekMinusButtonListener = new OnClickListener() {
-		public void onClick(View v) {
-			viewPager.setCurrentItem(viewPager.getCurrentItem() - 7);
-		}
-	};
-	OnClickListener weekPlusButtonListener = new OnClickListener() {
-		public void onClick(View v) {
-			viewPager.setCurrentItem(viewPager.getCurrentItem() + 7);
-		}
-	};
-	OnClickListener todayButtonListener = new OnClickListener() {
-		public void onClick(View v) {
-			viewPager.setCurrentItem(TODAY);
-		}
-	};
-	
 	private SparseArray<List<ExpenseEntry>> summarizeDays(List<ExpenseEntry> resultSet) {
 		SparseArray<List<ExpenseEntry>> result = new SparseArray<List<ExpenseEntry>>();
 		Calendar cal = Calendar.getInstance();
