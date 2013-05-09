@@ -50,7 +50,7 @@ public class SyncEntryAsync extends AsyncTask<Void, Void, Void> {
 		String serializedEntry = gson.toJson(new DatabaseExportContainer(list));
 
 		HttpClient client = new DefaultHttpClient();
-		HttpPost post = new HttpPost("http://192.168.1.27:8080/data");
+		HttpPost post = new HttpPost("http://expenses-server-eu.herokuapp.com/data");
 
 		try {
 			ByteArrayEntity entitiy = new ByteArrayEntity(serializedEntry.getBytes());
