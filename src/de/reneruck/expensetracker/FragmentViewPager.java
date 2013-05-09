@@ -7,6 +7,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.SparseArray;
@@ -15,9 +16,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.actionbarsherlock.app.SherlockFragment;
-
 import de.reneruck.expensetracker.db.ExpenseQueryCallback;
 import de.reneruck.expensetracker.model.ExpenseEntry;
 
@@ -28,7 +26,7 @@ import de.reneruck.expensetracker.model.ExpenseEntry;
  *
  */
 @SuppressLint("ValidFragment")
-public class FragmentViewPager extends SherlockFragment implements ExpenseQueryCallback {
+public class FragmentViewPager extends Fragment implements ExpenseQueryCallback {
 
     private static final String TAG = "FragmentViewPager";
 	private static final int TODAY = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);

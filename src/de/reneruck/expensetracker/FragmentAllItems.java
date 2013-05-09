@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,6 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.actionbarsherlock.app.SherlockFragment;
-
 import de.reneruck.expensetracker.db.ExpenseQueryCallback;
 import de.reneruck.expensetracker.model.ExpenseEntry;
 import de.reneruck.expensetracker.model.Ordering;
@@ -24,7 +22,7 @@ import de.reneruck.expensetracker.model.Ordering;
  * 
  */
 @SuppressLint("ValidFragment")
-public class FragmentAllItems extends SherlockFragment implements ExpenseQueryCallback {
+public class FragmentAllItems extends Fragment implements ExpenseQueryCallback {
 
 	private static final String TAG = "FragmentAllItems";
 	private ViewGroup container;

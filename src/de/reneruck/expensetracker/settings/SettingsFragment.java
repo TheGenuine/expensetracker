@@ -1,8 +1,8 @@
 package de.reneruck.expensetracker.settings;
 
+import de.reneruck.expensetracker.R;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-import de.reneruck.expensetracker.R;
 
 /**
  * 

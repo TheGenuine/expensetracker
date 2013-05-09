@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,9 +22,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.actionbarsherlock.app.SherlockFragment;
-
 import de.reneruck.expensetracker.db.DescriptionQueryCallback;
 import de.reneruck.expensetracker.model.Description;
 import de.reneruck.expensetracker.model.ExpenseEntry;
@@ -34,7 +33,8 @@ import de.reneruck.expensetracker.model.ExpenseEntry;
  * @author Rene
  * 
  */
-public class FragmentChooseDescription extends SherlockFragment implements DescriptionQueryCallback {
+@SuppressLint("ValidFragment")
+public class FragmentChooseDescription extends Fragment implements DescriptionQueryCallback {
 
 	private static final String TAG = "FragmentChooseDescription";
 	private ExpenseEntry currentEntry;
@@ -118,7 +118,7 @@ public class FragmentChooseDescription extends SherlockFragment implements Descr
 	}
 
 	private List<String> getStoredDescriptions() {
-		SharedPreferences preferences = getSherlockActivity().getSharedPreferences(AppContext.PREF_USER, Context.MODE_PRIVATE);
+		SharedPreferences preferences = getActivity().getSharedPreferences(AppContext.PREF_USER, Context.MODE_PRIVATE);
 		return getList(preferences.getString(AppContext.PREF_USER_DESCRIPTIONS, ""));
 	}
 
@@ -133,7 +133,7 @@ public class FragmentChooseDescription extends SherlockFragment implements Descr
 	public void queryFinished(List<Description> resultSet) {
 		this.descriptions = new ArrayList<Description>(resultSet);
 		if(this.descriptionList != null) {
-			this.descriptionList.setAdapter(new ArrayAdapter<Description>(getSherlockActivity(), android.R.layout.simple_selectable_list_item, this.descriptions));
+			this.descriptionList.setAdapter(new ArrayAdapter<Description>(getActivity(), android.R.layout.simple_selectable_list_item, this.descriptions));
 		}
 	}
 }

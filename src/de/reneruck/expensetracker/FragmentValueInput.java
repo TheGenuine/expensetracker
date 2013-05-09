@@ -1,14 +1,13 @@
 package de.reneruck.expensetracker;
 
+import android.annotation.SuppressLint;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.actionbarsherlock.app.SherlockFragment;
-
 import de.reneruck.expensetracker.model.ExpenseEntry;
 
 /**
@@ -18,7 +17,8 @@ import de.reneruck.expensetracker.model.ExpenseEntry;
  * @author Rene
  * 
  */
-public class FragmentValueInput extends SherlockFragment {
+@SuppressLint("ValidFragment")
+public class FragmentValueInput extends Fragment {
 
 
 	private static final String TAG = "FragmentValueInput";

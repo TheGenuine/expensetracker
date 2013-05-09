@@ -3,8 +3,10 @@ package de.reneruck.expensetracker;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,9 +19,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.actionbarsherlock.app.SherlockFragment;
-
 import de.reneruck.expensetracker.db.CategoryQueryCallback;
 import de.reneruck.expensetracker.model.Category;
 import de.reneruck.expensetracker.model.ExpenseEntry;
@@ -31,7 +30,8 @@ import de.reneruck.expensetracker.model.ExpenseEntry;
  * @author Rene
  * 
  */
-public class FragmentChooseCategory extends SherlockFragment implements CategoryQueryCallback {
+@SuppressLint("ValidFragment")
+public class FragmentChooseCategory extends Fragment implements CategoryQueryCallback {
 
 	private static final String TAG = "FragmentChooseCategory";
 	private ExpenseEntry currentEntry;
@@ -120,7 +120,7 @@ public class FragmentChooseCategory extends SherlockFragment implements Category
 	public void queryFinished(List<Category> resultSet) {
 		this.categories = new ArrayList<Category>(resultSet);
 		if(this.categoryList != null) {
-			this.categoryList.setAdapter(new ArrayAdapter<Category>(getSherlockActivity(), android.R.layout.simple_selectable_list_item, this.categories));
+			this.categoryList.setAdapter(new ArrayAdapter<Category>(getActivity(), android.R.layout.simple_selectable_list_item, this.categories));
 		}
 	}
 	

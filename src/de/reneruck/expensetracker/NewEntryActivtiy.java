@@ -1,25 +1,24 @@
 package de.reneruck.expensetracker;
 
+import android.app.Activity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-
 import de.reneruck.expensetracker.model.ExpenseEntry;
 import de.reneruck.expensetracker.settings.SettingsActivity;
 
@@ -32,7 +31,7 @@ import de.reneruck.expensetracker.settings.SettingsActivity;
  * @author Rene
  * 
  */
-public class NewEntryActivtiy extends SherlockFragmentActivity {
+public class NewEntryActivtiy extends FragmentActivity {
 
 	private static final String TAG = "NewEntryActivity";
 	
@@ -57,12 +56,12 @@ public class NewEntryActivtiy extends SherlockFragmentActivity {
         this.currentEntry = this.context.getEntryToEdit();
         
         if(this.currentEntry != null) {
-        	getSupportActionBar().setTitle("Edit Entry");
+        	getActionBar().setTitle("Edit Entry");
         } else {
         	this.currentEntry = new ExpenseEntry();
         }
         
-		getSupportActionBar().setHomeButtonEnabled(true);
+		getActionBar().setHomeButtonEnabled(true);
 		
 		setupFragments();
 		
@@ -80,7 +79,7 @@ public class NewEntryActivtiy extends SherlockFragmentActivity {
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.activity_new_entry, menu);
+		getMenuInflater().inflate(R.menu.activity_new_entry, menu);
 		return true;
 	};
 	
@@ -154,7 +153,7 @@ public class NewEntryActivtiy extends SherlockFragmentActivity {
         }
 
         @Override
-        public Fragment getItem(int i) {
+        public android.support.v4.app.Fragment getItem(int i) {
         	Fragment fragment = null;
         	Bundle args = new Bundle();
         	
@@ -197,7 +196,7 @@ public class NewEntryActivtiy extends SherlockFragmentActivity {
     /**
      * A dummy fragment representing a section of the app, but that simply displays dummy text.
      */
-    public static class DummySectionFragment extends Fragment {
+    public static class DummySectionFragment extends android.support.v4.app.Fragment {
         public DummySectionFragment() {
         }
 

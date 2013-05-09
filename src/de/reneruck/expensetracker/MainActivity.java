@@ -5,15 +5,13 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-
 import de.reneruck.expensetracker.db.ExpenseQueryCallback;
 import de.reneruck.expensetracker.model.ExpenseEntry;
 import de.reneruck.expensetracker.model.Ordering;
@@ -25,7 +23,7 @@ import de.reneruck.expensetracker.settings.SettingsActivity;
  * @author Rene
  *
  */
-public class MainActivity extends SherlockFragmentActivity {
+public class MainActivity extends FragmentActivity {
 
     protected static final int TODAY = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 	private static final String TAG = "MainActivity";
@@ -70,7 +68,7 @@ public class MainActivity extends SherlockFragmentActivity {
     
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.activity_main, menu);
+		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
 	
