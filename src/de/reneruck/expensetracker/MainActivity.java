@@ -87,8 +87,8 @@ public class MainActivity extends FragmentActivity {
 				this.mode = item.getItemId();
 				setFragmentForCurrentMode();
 				break;
-			case R.id.menu_statistics:
-				break;
+//			case R.id.menu_statistics:
+//				break;
 			case R.id.menu_settings:
 				Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
 				startActivity(settingsIntent);
