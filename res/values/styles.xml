@@ -18,8 +18,7 @@
 -->
 
 <resources>
-
-    <style name="Theme.Bar_in_blue" parent="@android:style/Theme.Holo">
+    <style name="Theme.Bar_in_blue" parent="@android:style/Theme.Holo.Light.DarkActionBar">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_bar_in_blue</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Bar_in_blue</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Bar_in_blue</item>
@@ -29,50 +28,50 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_bar_in_blue</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_bar_in_blue</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Bar_in_blue</item>
-        
+		<item name="android:homeAsUpIndicator">@drawable/new_indicator</item>      
         
     </style>
 
-    <style name="ActionBar.Solid.Bar_in_blue" parent="@android:style/Widget.Holo.ActionBar.Solid">
+    <style name="ActionBar.Solid.Bar_in_blue" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
         <item name="android:background">@drawable/ab_solid_bar_in_blue</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_bar_in_blue</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_bar_in_blue</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Bar_in_blue</item>
     </style>
 
-    <style name="ActionBar.Transparent.Bar_in_blue" parent="@android:style/Widget.Holo.ActionBar">
+    <style name="ActionBar.Transparent.Bar_in_blue" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@drawable/ab_transparent_bar_in_blue</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Bar_in_blue</item>
     </style>
 
-    <style name="PopupMenu.Bar_in_blue" parent="@android:style/Widget.Holo.ListPopupWindow">
+    <style name="PopupMenu.Bar_in_blue" parent="@android:style/Widget.Holo.Light.ListPopupWindow">
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_bar_in_blue</item>	
     </style>
 
-    <style name="DropDownListView.Bar_in_blue" parent="@android:style/Widget.Holo.ListView.DropDown">
+    <style name="DropDownListView.Bar_in_blue" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
         <item name="android:listSelector">@drawable/selectable_background_bar_in_blue</item>
     </style>
 
-    <style name="ActionBarTabStyle.Bar_in_blue" parent="@android:style/Widget.Holo.ActionBar.TabView">
+    <style name="ActionBarTabStyle.Bar_in_blue" parent="@android:style/Widget.Holo.Light.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_bar_in_blue</item>
     </style>
 
-    <style name="DropDownNav.Bar_in_blue" parent="@android:style/Widget.Holo.Spinner">
+    <style name="DropDownNav.Bar_in_blue" parent="@android:style/Widget.Holo.Light.Spinner">
         <item name="android:background">@drawable/spinner_background_ab_bar_in_blue</item>
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_bar_in_blue</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_bar_in_blue</item>
     </style>
     
-    <style name="ProgressBar.Bar_in_blue" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
+    <style name="ProgressBar.Bar_in_blue" parent="@android:style/Widget.Holo.Light.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_bar_in_blue</item>
     </style>
     
-    <style name="ActionButton.CloseMode.Bar_in_blue" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
+    <style name="ActionButton.CloseMode.Bar_in_blue" parent="@android:style/Widget.Holo.Light.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_bar_in_blue</item>
     </style>
 
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
-    <style name="Theme.Bar_in_blue.Widget" parent="@android:style/Theme.Holo">
+    <style name="Theme.Bar_in_blue.Widget" parent="@android:style/Theme.Holo.Light.DarkActionBar">
         <item name="android:popupMenuStyle">@style/PopupMenu.Bar_in_blue</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Bar_in_blue</item>
     </style>

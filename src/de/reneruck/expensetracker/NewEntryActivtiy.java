@@ -1,15 +1,16 @@
 package de.reneruck.expensetracker;
 
-import android.app.Activity;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+import android.R.color;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,6 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
+
+import de.reneruck.expensetracker.menu.FragmentMenuList;
 import de.reneruck.expensetracker.model.ExpenseEntry;
 import de.reneruck.expensetracker.settings.SettingsActivity;
 
@@ -31,7 +37,7 @@ import de.reneruck.expensetracker.settings.SettingsActivity;
  * @author Rene
  * 
  */
-public class NewEntryActivtiy extends FragmentActivity {
+public class NewEntryActivtiy extends SlidingFragmentActivity {
 
 	private static final String TAG = "NewEntryActivity";
 	
@@ -45,9 +51,11 @@ public class NewEntryActivtiy extends FragmentActivity {
 	private FragmentChooseDescription fragmentChooseDescription;
 
 	private FragmentChooseCategory fragmentChooseCategory;
+
+	private Fragment mFrag;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_entry);
 		
@@ -60,10 +68,10 @@ public class NewEntryActivtiy extends FragmentActivity {
         } else {
         	this.currentEntry = new ExpenseEntry();
         }
-        
-		getActionBar().setHomeButtonEnabled(true);
 		
 		setupFragments();
+		setupSlidingMenu(savedInstanceState);
+		getActionBar().setHomeButtonEnabled(true);
 		
         this.sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -72,6 +80,31 @@ public class NewEntryActivtiy extends FragmentActivity {
         this.viewPager.setAdapter(this.sectionsPagerAdapter);
 	}
 
+    private void setupSlidingMenu(Bundle savedInstanceState) {
+		
+    	setBehindContentView(R.layout.menu_frame);
+		if (savedInstanceState == null) {
+			FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
+			this.mFrag = new FragmentMenuList();
+			t.replace(R.id.menu_frame, this.mFrag);
+			t.commit();
+		} else {
+			this.mFrag = (ListFragment) this.getSupportFragmentManager().findFragmentById(R.id.menu_frame);
+		}
+
+		// customize the SlidingMenu
+		SlidingMenu sm = getSlidingMenu();
+		sm.setMode(SlidingMenu.LEFT);
+		sm.setBackgroundColor(color.darker_gray);
+		sm.setShadowWidthRes(R.dimen.shadow_width);
+		sm.setShadowDrawable(R.drawable.shadow);
+		sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+		sm.setFadeDegree(0.35f);
+		sm.setBehindScrollScale(0.25f);
+		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+		sm.setTouchModeBehind(SlidingMenu.TOUCHMODE_MARGIN);
+	}
+	
 	private void setupFragments() {
 		this.fragmentValueInput = new FragmentValueInput(this.currentEntry);		
 		this.fragmentChooseCategory = new FragmentChooseCategory(this.context, this.currentEntry);		
