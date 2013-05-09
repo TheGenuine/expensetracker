@@ -7,6 +7,7 @@ import android.R.color;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -41,14 +42,20 @@ public class MainActivity extends SlidingFragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
         setupSlidingMenu(savedInstanceState);
-        
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        
-        this.appContext = (AppContext) getApplicationContext();
     }
-
+	
+    @Override
+    protected void onResume() {
+    	super.onResume();
+    	Log.d(TAG, "-- onResume --");
+    	
+    	getActionBar().setDisplayHomeAsUpEnabled(true);
+    	
+    	this.appContext = (AppContext) getApplicationContext();
+    	setFragmentForCurrentMode();
+    }
+	
     private void setupSlidingMenu(Bundle savedInstanceState) {
 		
     	setBehindContentView(R.layout.menu_frame);
@@ -74,30 +81,33 @@ public class MainActivity extends SlidingFragmentActivity {
 		sm.setTouchModeBehind(SlidingMenu.TOUCHMODE_MARGIN);
 	}
 
-	@Override
-    protected void onResume() {
-    	super.onResume();
-    	Log.d(TAG, "-- onResume --");
-    	setFragmentForCurrentMode();
-    }
+
 
 	private void setFragmentForCurrentMode(){
-		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		View container = findViewById(R.id.fragment_container);
-		((ViewGroup) container).removeAllViews();
-		switch (this.mode) {
-//			case R.id.menu_overview_day:
-//				transaction.add(R.id.fragment_container, new FragmentViewPager(this.appContext), "FragmentOverviewDay");
-//				break;
-//			case R.id.menu_overview_month:
-//				transaction.add(R.id.fragment_container, new FragmentNotImplemented(), "FragmentNotImplemented");
-//				break;
-//			case R.id.menu_overview_all:
-//				transaction.add(R.id.fragment_container, new FragmentAllItems(this.appContext), "FragmentAllItems");
-//				break;
-			default:
-				transaction.add(R.id.fragment_container, new FragmentViewPager(this.appContext), "FragmentOverviewDay");
-				break;
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentTransaction transaction = fragmentManager.beginTransaction();
+		Fragment byTag = fragmentManager.findFragmentByTag("FragmentOverviewDay");
+		
+		if(byTag != null) {
+			transaction.show(byTag);
+		} else {
+			
+			View container = findViewById(R.id.fragment_container);
+			((ViewGroup) container).removeAllViews();
+			switch (this.mode) {
+	//			case R.id.menu_overview_day:
+	//				transaction.add(R.id.fragment_container, new FragmentViewPager(this.appContext), "FragmentOverviewDay");
+	//				break;
+	//			case R.id.menu_overview_month:
+	//				transaction.add(R.id.fragment_container, new FragmentNotImplemented(), "FragmentNotImplemented");
+	//				break;
+	//			case R.id.menu_overview_all:
+	//				transaction.add(R.id.fragment_container, new FragmentAllItems(this.appContext), "FragmentAllItems");
+	//				break;
+				default:
+					transaction.add(R.id.fragment_container, new FragmentViewPager(this.appContext), "FragmentOverviewDay");
+					break;
+			}
 		}
 		transaction.commit();
 	}
