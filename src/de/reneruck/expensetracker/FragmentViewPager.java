@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -42,20 +43,24 @@ public class FragmentViewPager extends Fragment implements ExpenseQueryCallback 
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
+		Log.d(TAG, "-- onCreate --");
         super.onCreate(savedInstanceState);
         
-        Calendar instance = Calendar.getInstance();
+    }
+
+	private void startQuery() {
+		Calendar instance = Calendar.getInstance();
     	instance.set(Calendar.DAY_OF_MONTH, 1);
     	
     	Calendar instance2 = Calendar.getInstance();
     	instance2.set(Calendar.DAY_OF_MONTH, instance.getActualMaximum(Calendar.DAY_OF_MONTH));
     	
     	this.context.getDatabaseManager().getAllExpensEntriesForRange(new Date(instance.getTimeInMillis()), new Date(instance2.getTimeInMillis()), null, this);
-    }
+	}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    	Log.d(TAG, "OnCreateView");
+    	Log.d(TAG, "-- onCreateView --");
 		View inflated = inflater.inflate(R.layout.busy, container, false);
 		this.pagerLayout = inflater.inflate(R.layout.fragment_pager, null, false);
 		((TextView) inflated.findViewById(R.id.busy_text_wait)).setText(R.string.retrieving_items);
@@ -65,11 +70,20 @@ public class FragmentViewPager extends Fragment implements ExpenseQueryCallback 
     
     @Override
     public void onResume() {
+    	Log.d(TAG, "-- onResume --");
     	super.onResume();
     	
+    	startQuery();
     }
     
+	@Override
+	public void onAttach(Activity activity) {
+		Log.d(TAG, "-- onAttach --");
+		super.onAttach(activity);
+	}
+
 	public void queryFinished(List<ExpenseEntry> resultSet) {
+		Log.d(TAG, "-- queryFinished --");
 		this.container.removeAllViews();
 		
 		this.container.addView(this.pagerLayout);
