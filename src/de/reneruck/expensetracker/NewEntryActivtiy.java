@@ -1,5 +1,7 @@
 package de.reneruck.expensetracker;
 
+import java.util.Calendar;
+
 import android.R.color;
 import android.content.Context;
 import android.content.Intent;
@@ -61,14 +63,10 @@ public class NewEntryActivtiy extends SlidingFragmentActivity {
 		
         this.context = (AppContext) getApplicationContext();
 		
-        this.currentEntry = this.context.getEntryToEdit();
-        
-        if(this.currentEntry != null) {
-        	getActionBar().setTitle("Edit Entry");
-        } else {
-        	this.currentEntry = new ExpenseEntry();
-        }
+        getCurrentEntry();
 		
+        checkForDifferentDate();
+        
 		setupFragments();
 		setupSlidingMenu(savedInstanceState);
 		getActionBar().setHomeButtonEnabled(true);
@@ -78,6 +76,27 @@ public class NewEntryActivtiy extends SlidingFragmentActivity {
         // Set up the ViewPager with the sections adapter.
         this.viewPager = (ViewPager) findViewById(R.id.pager);
         this.viewPager.setAdapter(this.sectionsPagerAdapter);
+	}
+
+	private void getCurrentEntry() {
+		this.currentEntry = this.context.getEntryToEdit();
+        
+        if(this.currentEntry != null) {
+        	getActionBar().setTitle("Edit Entry");
+        } else {
+        	this.currentEntry = new ExpenseEntry();
+        }
+	}
+
+	private void checkForDifferentDate() {
+		int extraDay = getIntent().getExtras().getInt(Statics.EXTRA_DAY);
+        int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        
+        if(extraDay > 0 && extraDay != currentDay) {
+        	Calendar date = Calendar.getInstance();
+        	date.set(Calendar.DAY_OF_MONTH, extraDay);
+        	this.currentEntry.setDate(date.getTime());
+        }
 	}
 
     private void setupSlidingMenu(Bundle savedInstanceState) {

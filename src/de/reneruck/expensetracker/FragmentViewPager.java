@@ -149,4 +149,17 @@ public class FragmentViewPager extends Fragment implements ExpenseQueryCallback 
 		}
 		return result;
 	}
+	
+	/**
+	 * Returns the page number the attached viewpager is currently showing.
+	 * 
+	 * @return the no of the currently showing page or 0 if not available.
+	 */
+	public int getCurrentPage() {
+		if(this.viewPager != null) {
+			return this.viewPager.getCurrentItem();
+		} else {
+			return 0;
+		}
+	}
 }

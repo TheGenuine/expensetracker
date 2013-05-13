@@ -125,6 +125,7 @@ public class MainActivity extends SlidingFragmentActivity {
 				break;
 			case R.id.menu_add_entry:
 				Intent newEntryIntent = new Intent(this, NewEntryActivtiy.class);
+				checkAndSetDifferentDay(newEntryIntent);
 				startActivity(newEntryIntent);
 				break;
 //			case R.id.menu_overview_day:
@@ -147,6 +148,13 @@ public class MainActivity extends SlidingFragmentActivity {
 		return true;
 	}
 	
+	private void checkAndSetDifferentDay(Intent newEntryIntent) {
+		Fragment byTag = getSupportFragmentManager().findFragmentByTag("FragmentOverviewDay");
+		if(byTag != null) {
+			newEntryIntent.putExtra(Statics.EXTRA_DAY, ((FragmentViewPager) byTag).getCurrentPage());
+		}
+	}
+
 	ExpenseQueryCallback exportCallback = new ExpenseQueryCallback() {
 
 		public void queryFinished(List<ExpenseEntry> resultSet) {
